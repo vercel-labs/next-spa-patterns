@@ -1,8 +1,4 @@
-import {
-  QueryClient,
-  defaultShouldDehydrateQuery,
-  isServer,
-} from '@tanstack/react-query'
+import { QueryClient, defaultShouldDehydrateQuery } from '@tanstack/react-query'
 
 function makeQueryClient() {
   return new QueryClient({
@@ -22,11 +18,11 @@ function makeQueryClient() {
 let browserQueryClient: QueryClient | undefined
 
 export function getQueryClient() {
-  if (isServer) {
+  if (typeof window === 'undefined') {
     // Server: a fresh client for every request, so data never leaks between users.
     return makeQueryClient()
   }
-  // Browser: reuse one client across renders/navigations.
+  // Browser: reuse one client across renders and navigations.
   browserQueryClient ??= makeQueryClient()
   return browserQueryClient
 }

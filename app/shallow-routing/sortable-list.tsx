@@ -12,10 +12,16 @@ export function SortableList({ products }: { products: Product[] }) {
   return (
     <div>
       <SortProducts />
-      <ul className="pattern-list">
+      <ul className="mt-4 grid gap-2">
         {sorted.map((product) => (
-          <li key={product.id}>
-            <span>{product.name}</span> <span className="muted">${product.price}</span>
+          <li
+            key={product.id}
+            className="flex items-center justify-between rounded-lg border border-zinc-200 px-4 py-3 dark:border-zinc-800"
+          >
+            <span>{product.name}</span>
+            <span className="text-sm text-zinc-500 dark:text-zinc-400">
+              ${product.price}
+            </span>
           </li>
         ))}
       </ul>

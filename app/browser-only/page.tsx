@@ -2,15 +2,19 @@ import { BrowserOnly } from './loader'
 
 export default function BrowserOnlyPage() {
   return (
-    <main>
-      <h1>Rendering components only in the browser</h1>
-      <p className="muted">
-        The card below is loaded with <code>next/dynamic</code> and{' '}
-        <code>ssr: false</code>, so it is skipped during prerender and only runs
-        in the browser — useful for code that touches <code>window</code> or{' '}
+    <>
+      <h1 className="text-3xl font-bold tracking-tight">
+        Rendering components only in the browser
+      </h1>
+      <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+        The card below loads with <code>next/dynamic</code> and{' '}
+        <code>ssr: false</code>, so Next.js skips it during prerender and runs it
+        only in the browser. This suits code that reads <code>window</code> or{' '}
         <code>document</code>.
       </p>
-      <BrowserOnly />
-    </main>
+      <div className="mt-8">
+        <BrowserOnly />
+      </div>
+    </>
   )
 }

@@ -6,20 +6,25 @@ import { Profile } from './profile'
 const MATCHING_KEY = '/api/user'
 const MISMATCHED_KEY = '/api/user?client'
 
+const buttonClass =
+  'rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 aria-pressed:border-zinc-900 aria-pressed:font-medium dark:aria-pressed:border-zinc-100'
+
 export function Pitfall() {
   const [key, setKey] = useState(MATCHING_KEY)
   const matching = key === MATCHING_KEY
 
   return (
     <div>
-      <div className="row" role="group" aria-label="SWR key">
+      <div className="flex flex-wrap gap-2" role="group" aria-label="SWR key">
         <button
+          className={buttonClass}
           onClick={() => setKey(MATCHING_KEY)}
           aria-pressed={matching}
         >
           Matching key
         </button>
         <button
+          className={buttonClass}
           onClick={() => setKey(MISMATCHED_KEY)}
           aria-pressed={!matching}
         >
@@ -27,18 +32,24 @@ export function Pitfall() {
         </button>
       </div>
 
-      <p className="muted">
+      <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
         {matching
-          ? 'Reads the seeded fallback instantly — no client fetch.'
-          : 'No fallback for this key, so SWR fetches on the client (watch the network tab). Nothing warns about the mismatch.'}
+          ? 'Reads the seeded fallback with no client fetch.'
+          : 'No fallback exists for this key, so SWR fetches on the client. Nothing warns about the mismatch. Watch the network tab.'}
       </p>
 
-      <Suspense
-        key={key}
-        fallback={<div className="card">Fetching on the client…</div>}
-      >
-        <Profile swrKey={key} />
-      </Suspense>
+      <div className="mt-3">
+        <Suspense
+          key={key}
+          fallback={
+            <div className="rounded-lg border border-zinc-200 p-6 text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
+              Fetching on the client…
+            </div>
+          }
+        >
+          <Profile swrKey={key} />
+        </Suspense>
+      </div>
     </div>
   )
 }
