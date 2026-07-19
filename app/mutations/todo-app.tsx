@@ -26,7 +26,7 @@ function applyOptimistic(todos: Todo[], action: TodoAction): Todo[] {
 }
 
 export function TodoApp() {
-  const [todos, dispatch] = useActionState(todosReducer, initialTodos)
+  const [todos, dispatch, isPending] = useActionState(todosReducer, initialTodos)
   const [optimisticTodos, addOptimistic] = useOptimistic(todos, applyOptimistic)
   const [, startTransition] = useTransition()
 
@@ -52,6 +52,15 @@ export function TodoApp() {
           />
         ))}
       </ul>
+      <p
+        aria-hidden={!isPending}
+        className={`mt-3 flex items-center gap-2 text-sm text-zinc-500 transition-opacity duration-300 dark:text-zinc-400 ${
+          isPending ? 'opacity-100' : 'opacity-0'
+        }`}
+      >
+        <span className="h-3 w-3 animate-spin rounded-full border-2 border-zinc-300 border-t-transparent dark:border-zinc-600" />
+        Syncing to server…
+      </p>
     </div>
   )
 }
@@ -131,7 +140,7 @@ function TodoRow({
   }
 
   return (
-    <li className="flex items-center justify-between rounded-lg border border-zinc-200 px-4 py-3 dark:border-zinc-800">
+    <li className="fade-in-up flex items-center justify-between rounded-lg border border-zinc-200 px-4 py-3 dark:border-zinc-800">
       <span>{todo.text}</span>
       <div className="flex gap-2">
         <button
