@@ -1,7 +1,8 @@
 "use client";
 
 import { useActionState, useOptimistic, useState, useTransition } from "react";
-import { todosReducer, type Todo, type TodoAction } from "./actions";
+import { todosReducer } from "./actions";
+import { applyAction, type Todo, type TodoAction } from "./reducer";
 
 const initialTodos: Todo[] = [];
 
@@ -12,32 +13,12 @@ const buttonClass =
 const smallButtonClass =
   "rounded border border-zinc-300 px-2 py-1 text-xs hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900";
 
-function applyOptimistic(todos: Todo[], action: TodoAction): Todo[] {
-  switch (action.type) {
-    case "add":
-      return [...todos, { id: action.id, text: action.text, done: false }];
-    case "toggle":
-      return todos.map((todo) =>
-        todo.id === action.id ? { ...todo, done: !todo.done } : todo,
-      );
-    case "edit":
-      return todos.map((todo) =>
-        todo.id === action.id ? { ...todo, text: action.text } : todo,
-      );
-    case "delete":
-      return todos.filter((todo) => todo.id !== action.id);
-  }
-}
-
 export function TodoApp() {
   const [todos, dispatch, isPending] = useActionState(
     todosReducer,
     initialTodos,
   );
-  const [optimisticTodos, addOptimistic] = useOptimistic(
-    todos,
-    applyOptimistic,
-  );
+  const [optimisticTodos, addOptimistic] = useOptimistic(todos, applyAction);
   const [, startTransition] = useTransition();
 
   function act(action: TodoAction) {
