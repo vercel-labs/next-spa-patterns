@@ -33,7 +33,7 @@ const patterns = [
     href: '/mutations',
     title: 'Mutations',
     description:
-      'A to-do list with add, edit, and delete, using a Server Action as an async reducer with useOptimistic.',
+      'A to-do list with add, toggle, edit, and delete, using a Server Action as an async reducer with useOptimistic.',
   },
 ]
 

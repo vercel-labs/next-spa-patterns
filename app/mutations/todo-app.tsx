@@ -15,7 +15,11 @@ const smallButtonClass =
 function applyOptimistic(todos: Todo[], action: TodoAction): Todo[] {
   switch (action.type) {
     case 'add':
-      return [...todos, { id: action.id, text: action.text }]
+      return [...todos, { id: action.id, text: action.text, done: false }]
+    case 'toggle':
+      return todos.map((todo) =>
+        todo.id === action.id ? { ...todo, done: !todo.done } : todo
+      )
     case 'edit':
       return todos.map((todo) =>
         todo.id === action.id ? { ...todo, text: action.text } : todo
@@ -26,7 +30,7 @@ function applyOptimistic(todos: Todo[], action: TodoAction): Todo[] {
 }
 
 export function TodoApp() {
-  const [todos, dispatch, isPending] = useActionState(todosReducer, initialTodos)
+  const [todos, dispatch] = useActionState(todosReducer, initialTodos)
   const [optimisticTodos, addOptimistic] = useOptimistic(todos, applyOptimistic)
   const [, startTransition] = useTransition()
 
@@ -47,20 +51,12 @@ export function TodoApp() {
           <TodoRow
             key={todo.id}
             todo={todo}
+            onToggle={() => act({ type: 'toggle', id: todo.id })}
             onEdit={(text) => act({ type: 'edit', id: todo.id, text })}
             onDelete={() => act({ type: 'delete', id: todo.id })}
           />
         ))}
       </ul>
-      <p
-        aria-hidden={!isPending}
-        className={`mt-3 flex items-center gap-2 text-sm text-zinc-500 transition-opacity duration-300 dark:text-zinc-400 ${
-          isPending ? 'opacity-100' : 'opacity-0'
-        }`}
-      >
-        <span className="h-3 w-3 animate-spin rounded-full border-2 border-zinc-300 border-t-transparent dark:border-zinc-600" />
-        Syncing to server…
-      </p>
     </div>
   )
 }
@@ -93,10 +89,12 @@ function AddTodo({ onAdd }: { onAdd: (text: string) => void }) {
 
 function TodoRow({
   todo,
+  onToggle,
   onEdit,
   onDelete,
 }: {
   todo: Todo
+  onToggle: () => void
   onEdit: (text: string) => void
   onDelete: () => void
 }) {
@@ -140,8 +138,25 @@ function TodoRow({
   }
 
   return (
-    <li className="fade-in-up flex items-center justify-between rounded-lg border border-zinc-200 px-4 py-3 dark:border-zinc-800">
-      <span>{todo.text}</span>
+    <li
+      className={`fade-in-up flex items-center gap-3 rounded-lg border border-zinc-200 px-4 py-3 transition-opacity duration-300 dark:border-zinc-800 ${
+        todo.done ? 'opacity-60' : ''
+      }`}
+    >
+      <input
+        type="checkbox"
+        checked={todo.done}
+        onChange={onToggle}
+        aria-label={todo.done ? `Mark "${todo.text}" as not done` : `Mark "${todo.text}" as done`}
+        className="h-4 w-4 accent-zinc-900 dark:accent-zinc-100"
+      />
+      <span
+        className={`flex-1 transition-colors duration-300 ${
+          todo.done ? 'text-zinc-400 line-through dark:text-zinc-600' : ''
+        }`}
+      >
+        {todo.text}
+      </span>
       <div className="flex gap-2">
         <button
           onClick={() => {
