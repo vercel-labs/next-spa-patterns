@@ -13,7 +13,6 @@ export function SortProducts() {
   function updateSorting(sortOrder: SortOrder) {
     const urlSearchParams = new URLSearchParams(searchParams.toString())
     urlSearchParams.set('sort', sortOrder)
-    // Updates the URL and Router state without a reload; useSearchParams re-renders.
     window.history.pushState(null, '', `?${urlSearchParams.toString()}`)
   }
 

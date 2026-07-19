@@ -30,10 +30,10 @@ const patterns = [
       'Update the URL with pushState and read it back with useSearchParams, without a server round-trip.',
   },
   {
-    href: '/server-actions',
-    title: 'Server Actions in Client Components',
+    href: '/mutations',
+    title: 'Mutations',
     description:
-      'Call a Server Action from a Client Component and drive loading and error state with useActionState.',
+      'A to-do list with add, edit, and delete, using a Server Action as an async reducer with useOptimistic.',
   },
 ]
 

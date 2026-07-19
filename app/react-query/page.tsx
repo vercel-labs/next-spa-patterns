@@ -7,7 +7,6 @@ import { Profile } from './profile'
 export default function ReactQueryPage() {
   const queryClient = getQueryClient()
 
-  // Start on the server without awaiting; pending queries dehydrate and stream.
   queryClient.prefetchQuery({ queryKey: ['user'], queryFn: getUser })
 
   return (

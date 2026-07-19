@@ -2,7 +2,6 @@ import { Suspense } from 'react'
 import { getProducts } from '@/lib/products'
 import { SortableList } from './sortable-list'
 
-// Await below Suspense, not at the page top, so the rest of the page streams.
 async function Products() {
   const products = await getProducts()
   return <SortableList products={products} />

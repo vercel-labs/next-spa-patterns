@@ -5,7 +5,6 @@ import { useUser } from './user-provider'
 
 export function Profile() {
   const { userPromise } = useUser()
-  // Unwrap the server Promise on the client; suspends until it resolves.
   const user = use(userPromise)
 
   return (

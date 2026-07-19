@@ -4,8 +4,6 @@ import { useSuspenseQuery } from '@tanstack/react-query'
 import type { User } from '@/lib/user'
 
 export function Profile() {
-  // Same key as the server prefetch, so the dehydrated result is read from
-  // cache. queryFn only runs on client revalidation.
   const { data } = useSuspenseQuery<User>({
     queryKey: ['user'],
     queryFn: () => fetch('/api/user').then((res) => res.json()),

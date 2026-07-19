@@ -7,8 +7,6 @@ const fetcher = (url: string): Promise<User> =>
   fetch(url).then((res) => res.json())
 
 export function Profile({ swrKey }: { swrKey: string }) {
-  // The key must match the fallback key exactly, or the seed is ignored and SWR
-  // refetches on the client. suspense: true matches the useServerSWR pattern.
   const { data } = useSWR<User>(swrKey, fetcher, { suspense: true })
 
   return (

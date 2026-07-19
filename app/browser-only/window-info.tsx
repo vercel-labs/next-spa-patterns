@@ -2,7 +2,6 @@
 
 import { useEffect, useState } from 'react'
 
-// Safe to read window: this module only loads in the browser (ssr: false).
 export default function WindowInfo() {
   const [size, setSize] = useState({
     width: window.innerWidth,

@@ -6,8 +6,6 @@ export default function SwrLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Scoped to the segment that owns the data. getUser() is not awaited, so only
-  // components that read this key suspend.
   return (
     <SWRConfig
       value={{

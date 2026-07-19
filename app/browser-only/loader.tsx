@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic'
 
-// ssr: false must be set from a Client Component, so this wrapper exists.
 const WindowInfo = dynamic(() => import('./window-info'), {
   ssr: false,
   loading: () => (
