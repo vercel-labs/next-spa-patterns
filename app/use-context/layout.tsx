@@ -6,9 +6,7 @@ export default function UseContextLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Start the request on the server, but do NOT await it. The Promise is
-  // forwarded through context and unwrapped later with use(), so the server can
-  // begin streaming immediately instead of blocking here.
+  // Start the request without awaiting; it's unwrapped later with use().
   const userPromise = getUser()
 
   return <UserProvider userPromise={userPromise}>{children}</UserProvider>

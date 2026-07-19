@@ -7,8 +7,7 @@ import { Profile } from './profile'
 export default function ReactQueryPage() {
   const queryClient = getQueryClient()
 
-  // Start the request on the server without awaiting. Because pending queries
-  // are dehydrated, the query streams to the client and resolves there.
+  // Start on the server without awaiting; pending queries dehydrate and stream.
   queryClient.prefetchQuery({ queryKey: ['user'], queryFn: getUser })
 
   return (
@@ -17,9 +16,9 @@ export default function ReactQueryPage() {
         SPAs with React Query
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        The server starts <code>prefetchQuery</code> without awaiting, then
-        serializes the cache with <code>&lt;HydrationBoundary&gt;</code>.{' '}
-        <code>useSuspenseQuery</code> reads it on the client with the same key.
+        Prefetch on the server, <code>dehydrate</code> into a{' '}
+        <code>&lt;HydrationBoundary&gt;</code>, and read with{' '}
+        <code>useSuspenseQuery</code>.
       </p>
       <div className="mt-8">
         <HydrationBoundary state={dehydrate(queryClient)}>

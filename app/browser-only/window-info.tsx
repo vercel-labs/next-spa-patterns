@@ -2,8 +2,7 @@
 
 import { useEffect, useState } from 'react'
 
-// Reads window directly. This is safe because the module only loads in the
-// browser (see loader.tsx, which imports it with ssr: false).
+// Safe to read window: this module only loads in the browser (ssr: false).
 export default function WindowInfo() {
   const [size, setSize] = useState({
     width: window.innerWidth,

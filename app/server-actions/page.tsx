@@ -7,9 +7,8 @@ export default function ServerActionsPage() {
         Server Actions in Client Components
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        The form calls a Server Action directly, with no API route to write or
-        fetch. <code>useActionState</code> handles the returned state and the
-        pending flag for loading UI.
+        Call a Server Action from a Client Component. <code>useActionState</code>{' '}
+        gives the returned state and a pending flag.
       </p>
       <div className="mt-8">
         <MessageForm />

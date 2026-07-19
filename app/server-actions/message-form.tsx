@@ -6,8 +6,7 @@ import { addMessage, type State } from './actions'
 const initialState: State = { messages: [] }
 
 export function MessageForm() {
-  // Calls the Server Action directly, with no API route. useActionState gives
-  // the returned state and a pending flag for loading UI.
+  // Calls the Server Action directly; useActionState gives state and pending.
   const [state, formAction, pending] = useActionState(addMessage, initialState)
 
   return (

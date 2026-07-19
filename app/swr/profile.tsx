@@ -7,10 +7,8 @@ const fetcher = (url: string): Promise<User> =>
   fetch(url).then((res) => res.json())
 
 export function Profile({ swrKey }: { swrKey: string }) {
-  // The key must match the fallback key ('/api/user') exactly. When it matches,
-  // the seeded value is read from the streamed HTML with no client fetch. When
-  // it does not, nothing warns: the seed is ignored and SWR fetches on the
-  // client. suspense: true mirrors the front useServerSWR pattern.
+  // The key must match the fallback key exactly, or the seed is ignored and SWR
+  // refetches on the client. suspense: true matches the useServerSWR pattern.
   const { data } = useSWR<User>(swrKey, fetcher, { suspense: true })
 
   return (

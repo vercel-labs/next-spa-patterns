@@ -8,9 +8,8 @@ export default function UseContextPage() {
         use() within a Context Provider
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        The layout starts <code>getUser()</code> without awaiting and forwards
-        the Promise through context. <code>Profile</code> unwraps it with{' '}
-        <code>use()</code> and suspends until it resolves.
+        Start the fetch in the layout, then unwrap the Promise in a Client
+        Component with <code>use()</code>.
       </p>
       <div className="mt-8">
         <Suspense

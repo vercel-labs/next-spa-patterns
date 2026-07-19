@@ -5,8 +5,7 @@ function makeQueryClient() {
     defaultOptions: {
       queries: { staleTime: 60 * 1000 },
       dehydrate: {
-        // Dehydrate pending queries too, so a query started on the server
-        // (without awaiting) can stream its result to the client.
+        // Dehydrate pending queries so unawaited server queries can stream.
         shouldDehydrateQuery: (query) =>
           defaultShouldDehydrateQuery(query) ||
           query.state.status === 'pending',

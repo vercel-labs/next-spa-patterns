@@ -6,10 +6,8 @@ export default function SwrLayout({
 }: {
   children: React.ReactNode
 }) {
-  // <SWRConfig> can live in any Server Component, not only the root layout.
-  // Scoping it to the segment that owns the data keeps the fallback close to
-  // where it's read. getUser() is NOT awaited: only components that read this
-  // key suspend, and the resolved value is serialized into the streamed HTML.
+  // Scoped to the segment that owns the data. getUser() is not awaited, so only
+  // components that read this key suspend.
   return (
     <SWRConfig
       value={{

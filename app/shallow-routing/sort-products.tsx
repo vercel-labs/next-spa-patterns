@@ -13,8 +13,7 @@ export function SortProducts() {
   function updateSorting(sortOrder: SortOrder) {
     const urlSearchParams = new URLSearchParams(searchParams.toString())
     urlSearchParams.set('sort', sortOrder)
-    // Updates the URL and the Next.js Router state without a server round-trip
-    // or reload. useSearchParams re-renders with the new value.
+    // Updates the URL and Router state without a reload; useSearchParams re-renders.
     window.history.pushState(null, '', `?${urlSearchParams.toString()}`)
   }
 
