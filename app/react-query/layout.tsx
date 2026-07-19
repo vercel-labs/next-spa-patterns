@@ -1,9 +1,7 @@
-import { Providers } from './providers'
+import { Providers } from "./providers";
 
 export default function ReactQueryLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
-  return <Providers>{children}</Providers>
+}: LayoutProps<"/react-query">) {
+  return <Providers>{children}</Providers>;
 }

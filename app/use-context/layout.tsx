@@ -1,12 +1,10 @@
-import { getUser } from '@/lib/user'
-import { UserProvider } from './user-provider'
+import { getUser } from "@/lib/user";
+import { UserProvider } from "./user-provider";
 
 export default function UseContextLayout({
   children,
-}: {
-  children: React.ReactNode
-}) {
-  const userPromise = getUser()
+}: LayoutProps<"/use-context">) {
+  const userPromise = getUser();
 
-  return <UserProvider userPromise={userPromise}>{children}</UserProvider>
+  return <UserProvider userPromise={userPromise}>{children}</UserProvider>;
 }

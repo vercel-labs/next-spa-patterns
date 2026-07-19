@@ -1,6 +1,11 @@
 "use client";
 
-import { useActionState, useOptimistic, useState, useTransition } from "react";
+import {
+  startTransition,
+  useActionState,
+  useOptimistic,
+  useState,
+} from "react";
 import { todosReducer } from "./actions";
 import { applyAction, type Todo, type TodoAction } from "./reducer";
 
@@ -19,9 +24,8 @@ export function TodoApp() {
     initialTodos,
   );
   const [optimisticTodos, addOptimistic] = useOptimistic(todos, applyAction);
-  const [, startTransition] = useTransition();
 
-  function act(action: TodoAction) {
+  function runAction(action: TodoAction) {
     startTransition(() => {
       addOptimistic(action);
       dispatch(action);
@@ -31,16 +35,18 @@ export function TodoApp() {
   return (
     <div>
       <AddTodo
-        onAdd={(text) => act({ type: "add", id: crypto.randomUUID(), text })}
+        onAdd={(text) =>
+          runAction({ type: "add", id: crypto.randomUUID(), text })
+        }
       />
       <ul className="mt-4 grid gap-2">
         {optimisticTodos.map((todo) => (
           <TodoRow
             key={todo.id}
             todo={todo}
-            onToggle={() => act({ type: "toggle", id: todo.id })}
-            onEdit={(text) => act({ type: "edit", id: todo.id, text })}
-            onDelete={() => act({ type: "delete", id: todo.id })}
+            onToggle={() => runAction({ type: "toggle", id: todo.id })}
+            onEdit={(text) => runAction({ type: "edit", id: todo.id, text })}
+            onDelete={() => runAction({ type: "delete", id: todo.id })}
           />
         ))}
       </ul>

@@ -1,17 +1,17 @@
-'use client'
+"use client";
 
-import { Suspense, useState } from 'react'
-import { Profile } from './profile'
+import { Suspense, useState } from "react";
+import { Profile } from "./profile";
 
-const MATCHING_KEY = '/api/user'
-const MISMATCHED_KEY = '/api/user?client'
+const MATCHING_KEY = "/api/user";
+const MISMATCHED_KEY = "/api/user?client";
 
 const buttonClass =
-  'rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 aria-pressed:border-zinc-900 aria-pressed:font-medium dark:aria-pressed:border-zinc-100'
+  "rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900 aria-pressed:border-zinc-900 aria-pressed:font-medium dark:aria-pressed:border-zinc-100";
 
 export function Pitfall() {
-  const [key, setKey] = useState(MATCHING_KEY)
-  const matching = key === MATCHING_KEY
+  const [key, setKey] = useState(MATCHING_KEY);
+  const matching = key === MATCHING_KEY;
 
   return (
     <div>
@@ -34,8 +34,8 @@ export function Pitfall() {
 
       <p className="mt-3 text-sm text-zinc-500 dark:text-zinc-400">
         {matching
-          ? 'Reads the seeded fallback with no client fetch.'
-          : 'No fallback exists for this key, so SWR fetches on the client. Nothing warns about the mismatch. Watch the network tab.'}
+          ? "Reads the seeded fallback with no client fetch."
+          : "No fallback exists for this key, so SWR fetches on the client. Nothing warns about the mismatch. Watch the network tab."}
       </p>
 
       <div className="mt-3">
@@ -51,5 +51,5 @@ export function Pitfall() {
         </Suspense>
       </div>
     </div>
-  )
+  );
 }
