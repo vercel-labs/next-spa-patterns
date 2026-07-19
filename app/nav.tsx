@@ -10,7 +10,7 @@ const links = [
   { href: '/browser-only', label: 'Browser-only' },
   { href: '/shallow-routing', label: 'Shallow routing' },
   { href: '/mutations', label: 'Mutations' },
-]
+] as const
 
 export function Nav() {
   const pathname = usePathname()
