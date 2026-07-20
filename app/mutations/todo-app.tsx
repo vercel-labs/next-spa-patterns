@@ -1,42 +1,37 @@
-"use client";
+'use client'
 
-import {
-  startTransition,
-  useActionState,
-  useOptimistic,
-  useState,
-} from "react";
-import { todosReducer } from "./actions";
-import { applyAction, type Todo, type TodoAction } from "./reducer";
+import { startTransition, useActionState, useOptimistic, useState } from 'react'
+import { todosReducer } from './actions'
+import { applyAction, type Todo, type TodoAction } from './reducer'
 
-const initialTodos: Todo[] = [];
+const initialTodos: Todo[] = []
 
 const inputClass =
-  "rounded border border-zinc-300 bg-transparent px-3 py-1.5 text-sm dark:border-zinc-700";
+  'rounded border border-zinc-300 bg-transparent px-3 py-1.5 text-sm dark:border-zinc-700'
 const buttonClass =
-  "rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:hover:bg-zinc-900";
+  'rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-40 dark:border-zinc-700 dark:hover:bg-zinc-900'
 const smallButtonClass =
-  "rounded border border-zinc-300 px-2 py-1 text-xs hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900";
+  'rounded border border-zinc-300 px-2 py-1 text-xs hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900'
 
 export function TodoApp() {
   const [todos, dispatch, isPending] = useActionState(
     todosReducer,
     initialTodos,
-  );
-  const [optimisticTodos, addOptimistic] = useOptimistic(todos, applyAction);
+  )
+  const [optimisticTodos, addOptimistic] = useOptimistic(todos, applyAction)
 
   function runAction(action: TodoAction) {
     startTransition(() => {
-      addOptimistic(action);
-      dispatch(action);
-    });
+      addOptimistic(action)
+      dispatch(action)
+    })
   }
 
   return (
     <div>
       <AddTodo
         onAdd={(text) =>
-          runAction({ type: "add", id: crypto.randomUUID(), text })
+          runAction({ type: 'add', id: crypto.randomUUID(), text })
         }
       />
       <ul className="mt-4 grid gap-2">
@@ -44,21 +39,21 @@ export function TodoApp() {
           <TodoRow
             key={todo.id}
             todo={todo}
-            onToggle={() => runAction({ type: "toggle", id: todo.id })}
-            onEdit={(text) => runAction({ type: "edit", id: todo.id, text })}
-            onDelete={() => runAction({ type: "delete", id: todo.id })}
+            onToggle={() => runAction({ type: 'toggle', id: todo.id })}
+            onEdit={(text) => runAction({ type: 'edit', id: todo.id, text })}
+            onDelete={() => runAction({ type: 'delete', id: todo.id })}
           />
         ))}
       </ul>
       <div className="mt-4 flex h-5 items-center justify-between text-xs text-zinc-400 dark:text-zinc-600">
         <span>
-          {optimisticTodos.length}{" "}
-          {optimisticTodos.length === 1 ? "item" : "items"}
+          {optimisticTodos.length}{' '}
+          {optimisticTodos.length === 1 ? 'item' : 'items'}
         </span>
         <span
           aria-live="polite"
           className={`flex items-center gap-1.5 transition-opacity duration-300 ${
-            isPending ? "opacity-100" : "opacity-0"
+            isPending ? 'opacity-100' : 'opacity-0'
           }`}
         >
           <span className="h-2.5 w-2.5 animate-spin rounded-full border border-current border-t-transparent" />
@@ -66,20 +61,20 @@ export function TodoApp() {
         </span>
       </div>
     </div>
-  );
+  )
 }
 
 function AddTodo({ onAdd }: { onAdd: (text: string) => void }) {
-  const [text, setText] = useState("");
+  const [text, setText] = useState('')
 
   return (
     <form
       onSubmit={(event) => {
-        event.preventDefault();
-        const trimmed = text.trim();
-        if (!trimmed) return;
-        onAdd(trimmed);
-        setText("");
+        event.preventDefault()
+        const trimmed = text.trim()
+        if (!trimmed) return
+        onAdd(trimmed)
+        setText('')
       }}
       className="flex flex-wrap gap-2"
     >
@@ -92,7 +87,7 @@ function AddTodo({ onAdd }: { onAdd: (text: string) => void }) {
       />
       <button className={buttonClass}>Add</button>
     </form>
-  );
+  )
 }
 
 function TodoRow({
@@ -101,24 +96,24 @@ function TodoRow({
   onEdit,
   onDelete,
 }: {
-  todo: Todo;
-  onToggle: () => void;
-  onEdit: (text: string) => void;
-  onDelete: () => void;
+  todo: Todo
+  onToggle: () => void
+  onEdit: (text: string) => void
+  onDelete: () => void
 }) {
-  const [editing, setEditing] = useState(false);
-  const [text, setText] = useState(todo.text);
+  const [editing, setEditing] = useState(false)
+  const [text, setText] = useState(todo.text)
 
   if (editing) {
     return (
       <li className="rounded-lg border border-zinc-200 px-4 py-3 dark:border-zinc-800">
         <form
           onSubmit={(event) => {
-            event.preventDefault();
-            const trimmed = text.trim();
-            if (!trimmed) return;
-            onEdit(trimmed);
-            setEditing(false);
+            event.preventDefault()
+            const trimmed = text.trim()
+            if (!trimmed) return
+            onEdit(trimmed)
+            setEditing(false)
           }}
           className="flex flex-wrap gap-2"
         >
@@ -133,8 +128,8 @@ function TodoRow({
           <button
             type="button"
             onClick={() => {
-              setText(todo.text);
-              setEditing(false);
+              setText(todo.text)
+              setEditing(false)
             }}
             className={buttonClass}
           >
@@ -142,13 +137,13 @@ function TodoRow({
           </button>
         </form>
       </li>
-    );
+    )
   }
 
   return (
     <li
       className={`fade-in-up flex items-center gap-3 rounded-lg border border-zinc-200 px-4 py-3 transition-opacity duration-300 dark:border-zinc-800 ${
-        todo.done ? "opacity-60" : ""
+        todo.done ? 'opacity-60' : ''
       }`}
     >
       <input
@@ -164,7 +159,7 @@ function TodoRow({
       />
       <span
         className={`flex-1 transition-colors duration-300 ${
-          todo.done ? "text-zinc-400 line-through dark:text-zinc-600" : ""
+          todo.done ? 'text-zinc-400 line-through dark:text-zinc-600' : ''
         }`}
       >
         {todo.text}
@@ -172,8 +167,8 @@ function TodoRow({
       <div className="flex gap-2">
         <button
           onClick={() => {
-            setText(todo.text);
-            setEditing(true);
+            setText(todo.text)
+            setEditing(true)
           }}
           className={smallButtonClass}
         >
@@ -184,5 +179,5 @@ function TodoRow({
         </button>
       </div>
     </li>
-  );
+  )
 }

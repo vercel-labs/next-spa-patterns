@@ -1,13 +1,13 @@
-"use client";
+'use client'
 
-import useSWR from "swr";
-import type { User } from "@/lib/user";
+import useSWR from 'swr'
+import type { User } from '@/lib/user'
 
 const fetcher = (url: string): Promise<User> =>
-  fetch(url).then((res) => res.json());
+  fetch(url).then((res) => res.json())
 
 export function Profile({ swrKey }: { swrKey: string }) {
-  const { data } = useSWR<User>(swrKey, fetcher, { suspense: true });
+  const { data } = useSWR<User>(swrKey, fetcher, { suspense: true })
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
@@ -19,5 +19,5 @@ export function Profile({ swrKey }: { swrKey: string }) {
         key: <code>{swrKey}</code>
       </div>
     </div>
-  );
+  )
 }
