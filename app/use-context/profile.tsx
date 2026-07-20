@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import { use } from 'react'
-import { useUser } from './user-provider'
+import { use } from "react";
+import { useUser } from "./user-provider";
 
 export function Profile() {
-  const { userPromise } = useUser()
-  const user = use(userPromise)
+  const userPromise = useUser();
+  const user = use(userPromise);
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
@@ -14,5 +14,5 @@ export function Profile() {
         {user.email}
       </div>
     </div>
-  )
+  );
 }

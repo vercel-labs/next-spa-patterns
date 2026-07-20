@@ -1,6 +1,6 @@
-import { Suspense } from 'react'
-import { Profile } from './profile'
-import { UserGreeting } from './user-greeting'
+import { Suspense } from "react";
+import { Profile } from "./profile";
+import { UserGreeting } from "./user-greeting";
 
 export default function UseContextPage() {
   return (
@@ -10,9 +10,9 @@ export default function UseContextPage() {
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
         The layout starts <code>getUser()</code> without awaiting and shares the
-        Promise through context. Multiple components read it with{' '}
-        <code>use()</code> from a single request, each suspending where the value
-        is used.
+        Promise through context. Multiple components read it with{" "}
+        <code>use()</code> from a single request, each suspending where the
+        value is used.
       </p>
       <div className="mt-8 grid gap-4">
         <Suspense
@@ -33,5 +33,5 @@ export default function UseContextPage() {
         </Suspense>
       </div>
     </>
-  )
+  );
 }
