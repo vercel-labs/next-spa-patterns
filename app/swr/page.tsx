@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { getProducts } from "@/lib/products";
 import { Pitfall } from "./pitfall";
+import { Revalidation } from "./revalidation";
 
 export default function SwrPage() {
   return (
@@ -13,6 +14,19 @@ export default function SwrPage() {
       </p>
       <div className="mt-8">
         <Pitfall />
+      </div>
+
+      <h2 className="mt-12 text-lg font-semibold">
+        <code>isLoading</code> vs. <code>isValidating</code>
+      </h2>
+      <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
+        Without Suspense mode, the seeded fallback is already present on first
+        render, so <code>isLoading</code> stays <code>false</code>. A client
+        revalidation surfaces as <code>isValidating</code> instead. Revalidate
+        and watch the flags:
+      </p>
+      <div className="mt-4">
+        <Revalidation />
       </div>
 
       <h2 className="mt-12 text-lg font-semibold">Scoped to a route segment</h2>
