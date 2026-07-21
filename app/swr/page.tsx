@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { getProducts } from "@/lib/products";
+import { SkeletonCard, SkeletonPills } from "../skeleton";
 import { Pitfall } from "./pitfall";
 import { Revalidation } from "./revalidation";
 
@@ -25,30 +26,22 @@ export default function SwrPage() {
         revalidation surfaces as <code>isValidating</code> instead. Revalidate
         and watch the flags:
       </p>
-      <Suspense
-        fallback={
-          <p className="mt-4 text-sm text-zinc-400 dark:text-zinc-600">
-            Loading…
-          </p>
-        }
-      >
-        <Revalidation />
-      </Suspense>
+      <div className="mt-6">
+        <Suspense fallback={<SkeletonCard />}>
+          <Revalidation />
+        </Suspense>
+      </div>
 
       <h2 className="mt-12 text-lg font-semibold">Scoped to a route segment</h2>
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
         Seed the fallback on a dynamic route with the <code>params.then()</code>{" "}
         pattern. Open a product to see it seeded per route:
       </p>
-      <Suspense
-        fallback={
-          <p className="mt-3 text-sm text-zinc-400 dark:text-zinc-600">
-            Loading…
-          </p>
-        }
-      >
-        <ProductLinks />
-      </Suspense>
+      <div className="mt-6">
+        <Suspense fallback={<SkeletonPills />}>
+          <ProductLinks />
+        </Suspense>
+      </div>
     </>
   );
 }
@@ -57,7 +50,7 @@ async function ProductLinks() {
   const products = await getProducts();
 
   return (
-    <div className="mt-3 flex flex-wrap gap-2">
+    <div className="flex flex-wrap gap-2">
       {products.map((product) => (
         <a
           key={product.id}

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { SkeletonCard } from "../skeleton";
 import { Profile } from "./profile";
 import { UserGreeting } from "./user-greeting";
 
@@ -17,18 +18,15 @@ export default function UseContextPage() {
       <div className="mt-8 grid gap-4">
         <Suspense
           fallback={
-            <p className="text-zinc-500 dark:text-zinc-400">Loading…</p>
+            <div
+              aria-hidden
+              className="h-6 w-56 animate-pulse rounded bg-zinc-100 dark:bg-zinc-900"
+            />
           }
         >
           <UserGreeting />
         </Suspense>
-        <Suspense
-          fallback={
-            <div className="rounded-lg border border-zinc-200 p-6 text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
-              Loading profile…
-            </div>
-          }
-        >
+        <Suspense fallback={<SkeletonCard rows={2} />}>
           <Profile />
         </Suspense>
       </div>

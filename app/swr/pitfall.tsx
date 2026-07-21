@@ -1,6 +1,7 @@
 "use client";
 
 import { Suspense, useState } from "react";
+import { SkeletonCard } from "../skeleton";
 import { Profile } from "./profile";
 
 const MATCHING_KEY = "/api/user";
@@ -39,14 +40,7 @@ export function Pitfall() {
       </p>
 
       <div className="mt-3">
-        <Suspense
-          key={key}
-          fallback={
-            <div className="rounded-lg border border-zinc-200 p-6 text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
-              Fetching on the client…
-            </div>
-          }
-        >
+        <Suspense key={key} fallback={<SkeletonCard />}>
           <Profile swrKey={key} />
         </Suspense>
       </div>

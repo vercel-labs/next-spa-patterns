@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { SWRConfig } from "swr";
 import { getProduct } from "@/lib/products";
+import { SkeletonCard } from "../../skeleton";
 import { ProductView } from "./product-view";
 
 export function generateStaticParams() {
@@ -18,13 +19,7 @@ export default function ScopedSwrPage({ params }: PageProps<"/swr/[id]">) {
         product, so the page shell stays static.
       </p>
       <div className="mt-8">
-        <Suspense
-          fallback={
-            <div className="rounded-lg border border-zinc-200 p-6 text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
-              Loading product…
-            </div>
-          }
-        >
+        <Suspense fallback={<SkeletonCard />}>
           {params.then(({ id }) => (
             <ProductData id={Number(id)} />
           ))}

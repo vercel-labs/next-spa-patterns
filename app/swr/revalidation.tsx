@@ -24,18 +24,28 @@ export function Revalidation() {
         {data?.email}
       </div>
 
-      <div className="mt-4 flex flex-wrap items-center gap-3">
+      <div className="mt-4 flex flex-wrap items-center gap-x-6 gap-y-3">
         <button
           className={buttonClass}
           onClick={() => mutate()}
           disabled={isValidating}
         >
-          {isValidating ? "Revalidating…" : "Revalidate"}
+          Revalidate
         </button>
-        <span className="text-sm text-zinc-500 dark:text-zinc-400">
-          isLoading: <code>{String(isLoading)}</code> · isValidating:{" "}
-          <code>{String(isValidating)}</code>
-        </span>
+        <dl className="flex gap-6 text-sm text-zinc-500 dark:text-zinc-400">
+          <div className="flex items-center gap-1.5">
+            <dt>isLoading</dt>
+            <dd>
+              <code>{String(isLoading)}</code>
+            </dd>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <dt>isValidating</dt>
+            <dd>
+              <code>{String(isValidating)}</code>
+            </dd>
+          </div>
+        </dl>
       </div>
     </div>
   );

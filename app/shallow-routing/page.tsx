@@ -1,5 +1,6 @@
 import { Suspense } from 'react'
 import { getProducts } from '@/lib/products'
+import { SkeletonList } from '../skeleton'
 import { SortableList } from './sortable-list'
 
 async function Products() {
@@ -18,13 +19,7 @@ export default function ShallowRoutingPage() {
         <code>useSearchParams</code> re-sorts the list, with no server request.
       </p>
       <div className="mt-8">
-        <Suspense
-          fallback={
-            <div className="rounded-lg border border-zinc-200 p-6 text-zinc-500 dark:border-zinc-800 dark:text-zinc-400">
-              Loading…
-            </div>
-          }
-        >
+        <Suspense fallback={<SkeletonList />}>
           <Products />
         </Suspense>
       </div>
