@@ -20,8 +20,8 @@ export default function SwrPage() {
         <code>isLoading</code> vs. <code>isValidating</code>
       </h2>
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-        Without Suspense mode, the seeded fallback is already present on first
-        render, so <code>isLoading</code> stays <code>false</code>. A client
+        Without Suspense mode, the seeded fallback is present on first render,
+        so <code>isLoading</code> stays <code>false</code>. A client
         revalidation surfaces as <code>isValidating</code> instead. Revalidate
         and watch the flags:
       </p>
