@@ -25,9 +25,15 @@ export default function SwrPage() {
         revalidation surfaces as <code>isValidating</code> instead. Revalidate
         and watch the flags:
       </p>
-      <div className="mt-4">
+      <Suspense
+        fallback={
+          <p className="mt-4 text-sm text-zinc-400 dark:text-zinc-600">
+            Loading…
+          </p>
+        }
+      >
         <Revalidation />
-      </div>
+      </Suspense>
 
       <h2 className="mt-12 text-lg font-semibold">Scoped to a route segment</h2>
       <p className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
