@@ -1,20 +1,32 @@
-import { dehydrate, HydrationBoundary } from '@tanstack/react-query'
+import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
 import { Suspense } from 'react'
-import { connection } from 'next/server'
-import { getUser } from '@/lib/user'
+import { cacheTag, updateTag } from 'next/cache'
+import { getCachedUser } from '@/lib/user'
 import { SkeletonCard } from '../skeleton'
-import { getQueryClient } from './get-query-client'
 import { Profile } from './profile'
 
-async function ReactQueryData() {
-  await connection()
-  const queryClient = getQueryClient()
+async function getUserState() {
+  'use cache'
+  cacheTag('user')
 
-  queryClient.prefetchQuery({ queryKey: ['user'], queryFn: getUser })
+  const queryClient = new QueryClient()
+  const user = await getCachedUser()
+  queryClient.setQueryData(['user'], user)
+
+  return dehydrate(queryClient)
+}
+
+async function refreshUser() {
+  'use server'
+  updateTag('user')
+}
+
+async function ReactQueryData() {
+  const state = await getUserState()
 
   return (
-    <HydrationBoundary state={dehydrate(queryClient)}>
-      <Profile />
+    <HydrationBoundary state={state}>
+      <Profile refreshUser={refreshUser} />
     </HydrationBoundary>
   )
 }
@@ -26,9 +38,8 @@ export default function ReactQueryPage() {
         SPAs with React Query
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Prefetch on the server, <code>dehydrate</code> into a{' '}
-        <code>&lt;HydrationBoundary&gt;</code>, and read with{' '}
-        <code>useSuspenseQuery</code>.
+        Cache the <code>dehydrate</code> payload, then <code>updateTag</code> to
+        refill it. The <code>cached at</code> stamp changes on update.
       </p>
       <div className="mt-8">
         <Suspense fallback={<SkeletonCard rows={2} />}>

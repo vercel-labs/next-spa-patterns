@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server'
-import { getUser } from '@/lib/user'
+import { getCachedUser } from '@/lib/user'
 
 export async function GET() {
-  const user = await getUser()
+  const user = await getCachedUser()
   return NextResponse.json(user)
 }
