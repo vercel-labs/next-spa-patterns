@@ -2,12 +2,13 @@
 
 import useSWR from "swr";
 import type { Product } from "@/lib/products";
+import { productKey } from "../keys";
 
 const fetcher = (url: string): Promise<Product> =>
   fetch(url).then((res) => res.json());
 
 export function ProductView({ id }: { id: number }) {
-  const { data } = useSWR<Product>(`/api/products/${id}`, fetcher, {
+  const { data } = useSWR<Product>(productKey(id), fetcher, {
     suspense: true,
   });
 
@@ -18,7 +19,7 @@ export function ProductView({ id }: { id: number }) {
         ${data?.price}
       </div>
       <div className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-        key: <code>/api/products/{id}</code>
+        key: <code>{productKey(id)}</code>
       </div>
     </div>
   );

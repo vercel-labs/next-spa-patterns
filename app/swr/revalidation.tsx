@@ -2,6 +2,7 @@
 
 import useSWR from "swr";
 import type { User } from "@/lib/user";
+import { USER_KEY } from "./keys";
 
 const fetcher = (url: string): Promise<User> =>
   fetch(url).then((res) => res.json());
@@ -13,7 +14,7 @@ export function Revalidation() {
   // No `suspense: true`. The seeded fallback is present on first render, so
   // `isLoading` stays false. Revalidating on the client flips `isValidating`.
   const { data, isLoading, isValidating, mutate } = useSWR<User>(
-    "/api/user",
+    USER_KEY,
     fetcher,
   );
 

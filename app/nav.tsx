@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation'
 const links = [
   { href: '/use-context', label: 'use() + Context' },
   { href: '/swr', label: 'SWR' },
+  { href: '/swr-preload', label: 'SWR preload' },
   { href: '/react-query', label: 'React Query' },
   { href: '/browser-only', label: 'Browser-only' },
   { href: '/shallow-routing', label: 'Shallow routing' },

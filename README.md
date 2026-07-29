@@ -20,6 +20,7 @@ Open [http://localhost:3000](http://localhost:3000). Open the browser's network 
 | `/use-context`     | Using React's `use` within a Context Provider | The layout starts `getUser()` unawaited and passes the Promise through context; `Profile` unwraps it with `use()` and suspends.                                                |
 | `/swr`             | SPAs with SWR                                 | A scoped `<SWRConfig>` fallback is seeded from the server. The **Matching key** reads it with no client fetch; the **Mismatched key** silently ignores the seed and refetches. |
 | `/swr/[id]`        | SPAs with SWR (scoped to a route segment)     | `params.then()` resolves the `id` inside `<Suspense>` and seeds the fallback for just that product, so the page shell stays static.                                            |
+| `/swr-preload`     | SPAs with SWR                                 | SWR 2.5 beta `preload` fills `SWRConfig` `cacheData` from a Server Component; the Client Component reads and mutates the same key without an API route.                         |
 | `/react-query`     | SPAs with TanStack Query                      | `prefetchQuery` (unawaited) + `dehydrate` into `<HydrationBoundary>`; `useSuspenseQuery` reads it with the same key. Pending queries are dehydrated so they stream.            |
 | `/browser-only`    | Rendering components only in the browser      | A component loaded with `next/dynamic` + `ssr: false` that reads `window`.                                                                                                     |
 | `/shallow-routing` | Shallow routing on the client                 | `window.history.pushState` updates `?sort=` with no reload; `useSearchParams` re-sorts the list.                                                                               |
@@ -31,10 +32,10 @@ The app enables [Cache Components](https://nextjs.org/docs/app/api-reference/con
 
 ## A note on static export
 
-The guide lists [static export](https://nextjs.org/docs/app/guides/static-exports) (`output: 'export'`) as an option. This demo does **not** enable it, because the server-seeding routes (`/use-context`, `/swr`, `/react-query`) and the Server Action in `/mutations` rely on server rendering, which static export does not support. The `/browser-only` and `/shallow-routing` patterns are export-compatible on their own.
+The guide lists [static export](https://nextjs.org/docs/app/guides/static-exports) (`output: 'export'`) as an option. This demo does **not** enable it, because the server-seeding routes (`/use-context`, `/swr`, `/swr-preload`, `/react-query`) and the Server Action in `/mutations` rely on server rendering, which static export does not support. The `/browser-only` and `/shallow-routing` patterns are export-compatible on their own.
 
 ## Stack
 
 - Next.js (App Router), React 19
-- [SWR](https://swr.vercel.app) 2.4+
+- [SWR](https://swr.vercel.app) 2.5 beta
 - [TanStack Query](https://tanstack.com/query/latest) v5

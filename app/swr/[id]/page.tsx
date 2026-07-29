@@ -2,6 +2,7 @@ import { Suspense } from "react";
 import { SWRConfig } from "swr";
 import { getProduct } from "@/lib/products";
 import { SkeletonCard } from "../../skeleton";
+import { productKey } from "../keys";
 import { ProductView } from "./product-view";
 
 export function generateStaticParams() {
@@ -13,10 +14,7 @@ export default function ScopedSwrPage({ params }: PageProps<"/swr/[id]">) {
     <>
       <h1 className="text-3xl font-bold tracking-tight">Scoped SWR seeding</h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        <code>&lt;SWRConfig&gt;</code> lives on this dynamic route.{" "}
-        <code>params.then()</code> resolves the <code>id</code> inside{" "}
-        <code>&lt;Suspense&gt;</code> and seeds the fallback for just this
-        product, so the page shell stays static.
+        Seed the product fallback for this route segment.
       </p>
       <div className="mt-8">
         <Suspense fallback={<SkeletonCard />}>
@@ -40,7 +38,7 @@ function ProductData({ id }: { id: number }) {
     <SWRConfig
       value={{
         fallback: {
-          [`/api/products/${id}`]: getProduct(id),
+          [productKey(id)]: getProduct(id),
         },
       }}
     >

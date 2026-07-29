@@ -12,6 +12,12 @@ const patterns = [
       'Seed a scoped SWRConfig fallback from a Server Component. Toggle the key-mismatch pitfall to watch SWR refetch on the client.',
   },
   {
+    href: '/swr-preload',
+    title: 'SWR preload cacheData',
+    description:
+      'Use SWR 2.5 beta preload from a Server Component to fill cacheData, then read and mutate the same key on the client.',
+  },
+  {
     href: '/react-query',
     title: 'SPAs with React Query',
     description:
