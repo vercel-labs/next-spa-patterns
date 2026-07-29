@@ -1,6 +1,8 @@
+import { Suspense } from "react";
 import { preload, SWRConfig } from "swr";
 import { getUser } from "@/lib/user";
 import { USER_KEY } from "../swr/keys";
+import { SkeletonCard } from "../skeleton";
 import { PreloadedProfile } from "./profile";
 
 export default function SwrPreloadPage() {
@@ -14,7 +16,9 @@ export default function SwrPreloadPage() {
 
       <div className="mt-8">
         <SWRConfig value={{ cacheData: preload(USER_KEY, () => getUser()) }}>
-          <PreloadedProfile />
+          <Suspense fallback={<SkeletonCard />}>
+            <PreloadedProfile />
+          </Suspense>
         </SWRConfig>
       </div>
     </>

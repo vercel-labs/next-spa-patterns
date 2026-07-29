@@ -10,7 +10,7 @@ const localUsers: User[] = [
 ];
 
 export function PreloadedProfile() {
-  const { data, mutate } = useSWR<User>(USER_KEY);
+  const { data, mutate } = useSWR<User>(USER_KEY, { suspense: true });
   const nextUser = data?.id === "1" ? localUsers[1] : localUsers[0];
 
   return (
