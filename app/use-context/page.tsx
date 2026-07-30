@@ -10,8 +10,8 @@ export default function UseContextPage() {
         use() within a Context Provider
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        The layout starts <code>getUser()</code> without awaiting and shares the
-        Promise through context. Multiple components read it with{" "}
+        The layout starts <code>getCurrentUser()</code> without awaiting and
+        shares the Promise through context. Multiple components read it with{" "}
         <code>use()</code> from a single request, each suspending where the
         value is used.
       </p>

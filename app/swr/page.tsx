@@ -1,9 +1,8 @@
 import { Suspense } from "react";
 import { getProducts } from "@/lib/products";
-import { SkeletonCard, SkeletonPills } from "../skeleton";
+import { SkeletonPills } from "../skeleton";
 import { ActivityBadge } from "./activity-badge";
 import { Pitfall } from "./pitfall";
-import { Revalidation } from "./revalidation";
 
 export default function SwrPage() {
   return (
@@ -22,15 +21,6 @@ export default function SwrPage() {
       </p>
       <div className="mt-6">
         <Pitfall />
-      </div>
-
-      <h2 className="mt-12 text-lg font-semibold">
-        <code>isLoading</code> vs. <code>isValidating</code>
-      </h2>
-      <div className="mt-6">
-        <Suspense fallback={<SkeletonCard />}>
-          <Revalidation />
-        </Suspense>
       </div>
 
       <h2 className="mt-12 text-lg font-semibold">Route-scoped data</h2>

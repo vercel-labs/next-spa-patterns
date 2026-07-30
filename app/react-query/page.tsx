@@ -1,35 +1,26 @@
-import { dehydrate, HydrationBoundary, QueryClient } from '@tanstack/react-query'
-import { Suspense } from 'react'
-import { cacheTag, updateTag } from 'next/cache'
-import { getCachedUser } from '@/lib/user'
-import { SkeletonCard } from '../skeleton'
-import { ActivityBadge } from './activity-badge'
-import { Profile } from './profile'
-
-async function getUserState() {
-  'use cache'
-  cacheTag('user')
-
-  const queryClient = new QueryClient()
-  const user = await getCachedUser()
-  queryClient.setQueryData(['user'], user)
-
-  return dehydrate(queryClient)
-}
+import { HydrationBoundary } from "@tanstack/react-query";
+import { Suspense } from "react";
+import { updateTag } from "next/cache";
+import { getCurrentUser } from "@/lib/user";
+import { dehydrate } from "@/lib/react-query-hydration";
+import { SkeletonCard } from "../skeleton";
+import { ActivityBadge } from "./activity-badge";
+import { Profile } from "./profile";
 
 async function refreshUser() {
-  'use server'
-  updateTag('user')
+  "use server";
+  updateTag("current-user");
 }
 
 async function ReactQueryData() {
-  const state = await getUserState()
+  const user = await getCurrentUser();
+  const state = await dehydrate([{ queryKey: ["user"], data: user }]);
 
   return (
     <HydrationBoundary state={state}>
       <Profile refreshUser={refreshUser} />
     </HydrationBoundary>
-  )
+  );
 }
 
 export default function ReactQueryPage() {
@@ -52,14 +43,14 @@ export default function ReactQueryPage() {
         Coordinating the server and client caches
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The React Query cache owns the badge for instant updates.{' '}
+        The React Query cache owns the badge for instant updates.{" "}
         <code>onMutate</code> clears it before the request resolves, then a
-        route handler calls <code>revalidateTag</code> so the next server
-        render is fresh.
+        route handler calls <code>revalidateTag</code> so the next server render
+        is fresh.
       </p>
       <div className="mt-6">
         <ActivityBadge />
       </div>
     </>
-  )
+  );
 }

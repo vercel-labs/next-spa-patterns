@@ -3,10 +3,6 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { UnreadActivity } from "@/lib/activity";
 
-const activityKeys = {
-  unread: ["activity", "unread"] as const,
-};
-
 const buttonClass =
   "rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900";
 
@@ -16,7 +12,7 @@ export function ActivityBadge() {
   const queryClient = useQueryClient();
 
   const { data, isFetching } = useQuery({
-    queryKey: activityKeys.unread,
+    queryKey: ["activity", "unread"],
     queryFn: (): Promise<UnreadActivity> =>
       fetch("/api/activity/unread").then((res) => res.json()),
     refetchInterval: 5000,
@@ -28,13 +24,13 @@ export function ActivityBadge() {
     // clears right away. The route's `revalidateTag` refreshes the next
     // server render.
     onMutate: () =>
-      queryClient.setQueryData(activityKeys.unread, { count: 0 }),
+      queryClient.setQueryData(["activity", "unread"], { count: 0 }),
   });
 
   const reset = useMutation({
     mutationFn: () => fetch("/api/activity/reset", { method: "POST" }),
     onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: activityKeys.unread }),
+      queryClient.invalidateQueries({ queryKey: ["activity", "unread"] }),
   });
 
   return (

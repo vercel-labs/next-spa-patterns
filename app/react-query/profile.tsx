@@ -9,7 +9,7 @@ export function Profile({
 }: {
   refreshUser: () => Promise<void>
 }) {
-  const { data } = useSuspenseQuery<User & { cachedAt: string }>({
+  const { data } = useSuspenseQuery<User>({
     queryKey: ['user'],
     queryFn: () => fetch('/api/user').then((res) => res.json()),
   })
@@ -20,9 +20,6 @@ export function Profile({
       <div className="font-semibold">{data.name}</div>
       <div className="text-sm text-zinc-500 dark:text-zinc-400">
         {data.email}
-      </div>
-      <div className="mt-2 text-sm text-zinc-500 dark:text-zinc-400">
-        cached at: <code>{data.cachedAt}</code>
       </div>
       <button
         className="mt-4 rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900"
