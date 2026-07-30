@@ -1,26 +1,51 @@
 import { Suspense } from "react";
+import { preload, SWRConfig } from "swr";
 import { getProducts } from "@/lib/products";
-import { SkeletonPills } from "../skeleton";
+import { getCurrentUser } from "@/lib/user";
+import { SkeletonPills, SkeletonCard } from "../skeleton";
+import { PRELOAD_KEY } from "./keys";
 import { ActivityBadge } from "./activity-badge";
-import { Pitfall } from "./pitfall";
+import { Profile } from "./profile";
+import { PreloadedProfile } from "./preloaded-profile";
 
 export default function SwrPage() {
   return (
     <>
-      <h1 className="text-3xl font-bold tracking-tight">SPAs with SWR</h1>
+      <h1 className="text-3xl font-bold tracking-tight">
+        Client-side data fetching with SWR
+      </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Seed <code>useSWR</code> from a Server Component.
+        Seed <code>useSWR</code> from a Server Component, then coordinate the
+        server and client caches on mutation.
       </p>
 
-      <h2 className="mt-12 text-lg font-semibold">Matching the seeded key</h2>
+      <h2 className="mt-12 text-lg font-semibold">Seeding from the server</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The layout seeds a fallback keyed <code>/api/user</code>. A matching key
-        renders instantly from that seed. A mismatched key (
-        <code>/api/user?client</code>) misses the seed, so SWR fetches on the
-        client and you see the skeleton first.
+        The layout seeds an <code>SWRConfig</code> fallback keyed{" "}
+        <code>/api/user</code>. Because <code>useSWR</code> reads the same key,
+        the profile renders instantly from that seed with no client fetch.
       </p>
       <div className="mt-6">
-        <Pitfall />
+        <Suspense fallback={<SkeletonCard />}>
+          <Profile />
+        </Suspense>
+      </div>
+
+      <h2 className="mt-12 text-lg font-semibold">Seeding with preload</h2>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        A <code>fallback</code> only sets the first render value. To seed a real
+        cache entry you can mutate, use <code>preload</code> with{" "}
+        <code>cacheData</code> (SWR 2.5 beta). Mutating updates that entry
+        directly.
+      </p>
+      <div className="mt-6">
+        <SWRConfig
+          value={{ cacheData: preload(PRELOAD_KEY, () => getCurrentUser()) }}
+        >
+          <Suspense fallback={<SkeletonCard />}>
+            <PreloadedProfile />
+          </Suspense>
+        </SWRConfig>
       </div>
 
       <h2 className="mt-12 text-lg font-semibold">Route-scoped data</h2>

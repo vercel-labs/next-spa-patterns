@@ -3,43 +3,62 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 
-const links = [
+// Native patterns, in the order the guide's Examples section lists them.
+const nativeLinks = [
   { href: '/use-context', label: 'use() + Context' },
-  { href: '/swr', label: 'SWR' },
-  { href: '/swr-preload', label: 'SWR preload' },
-  { href: '/react-query', label: 'React Query' },
   { href: '/browser-only', label: 'Browser-only' },
   { href: '/shallow-routing', label: 'Shallow routing' },
   { href: '/mutations', label: 'Mutations' },
 ] as const
 
+// Client-side data-fetching libraries, matching the guide's split child pages.
+const libraryLinks = [
+  { href: '/swr', label: 'SWR' },
+  { href: '/react-query', label: 'TanStack Query' },
+] as const
+
 export function Nav() {
   const pathname = usePathname()
 
+  function linkClass(active: boolean) {
+    return active
+      ? 'shrink-0 rounded-md bg-zinc-100 px-2.5 py-1 font-medium text-foreground dark:bg-zinc-800'
+      : 'shrink-0 rounded-md px-2.5 py-1 text-zinc-500 hover:text-foreground dark:text-zinc-400'
+  }
+
   return (
     <header className="sticky top-0 z-10 border-b border-zinc-200 bg-background/80 backdrop-blur dark:border-zinc-800">
-      <nav className="mx-auto flex max-w-3xl flex-wrap items-center gap-x-1 gap-y-1 px-6 py-3 text-sm">
-        <Link href="/" className="mr-3 shrink-0 font-semibold text-foreground">
+      <div className="mx-auto max-w-3xl px-6 py-3">
+        <Link href="/" className="font-semibold text-foreground">
           SPA patterns
         </Link>
-        {links.map((link) => {
-          const active = pathname === link.href
-          return (
+        <nav className="mt-2 flex flex-wrap items-center gap-1 text-sm">
+          {nativeLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              aria-current={active ? 'page' : undefined}
-              className={
-                active
-                  ? 'shrink-0 rounded-md bg-zinc-100 px-2.5 py-1 font-medium text-foreground dark:bg-zinc-800'
-                  : 'shrink-0 rounded-md px-2.5 py-1 text-zinc-500 hover:text-foreground dark:text-zinc-400'
-              }
+              aria-current={pathname === link.href ? 'page' : undefined}
+              className={linkClass(pathname === link.href)}
             >
               {link.label}
             </Link>
-          )
-        })}
-      </nav>
+          ))}
+          <span
+            aria-hidden
+            className="mx-1 h-4 w-px bg-zinc-200 dark:bg-zinc-800"
+          />
+          {libraryLinks.map((link) => (
+            <Link
+              key={link.href}
+              href={link.href}
+              aria-current={pathname === link.href ? 'page' : undefined}
+              className={linkClass(pathname === link.href)}
+            >
+              {link.label}
+            </Link>
+          ))}
+        </nav>
+      </div>
     </header>
   )
 }
