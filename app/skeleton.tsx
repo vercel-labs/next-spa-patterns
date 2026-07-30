@@ -23,9 +23,9 @@ export function SkeletonCard({ rows = 3 }: { rows?: number }) {
 export function SkeletonPills() {
   return (
     <div aria-hidden className="flex flex-wrap gap-2">
-      {["w-16", "w-24", "w-20", "w-20"].map((w) => (
+      {["w-16", "w-24", "w-20", "w-20"].map((w, i) => (
         <div
-          key={w}
+          key={i}
           className={`h-8 ${w} animate-pulse rounded bg-zinc-100 dark:bg-zinc-900`}
         />
       ))}

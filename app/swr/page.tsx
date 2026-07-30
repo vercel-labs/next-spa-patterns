@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import { getProducts } from "@/lib/products";
 import { SkeletonCard, SkeletonPills } from "../skeleton";
+import { ActivityBadge } from "./activity-badge";
 import { Pitfall } from "./pitfall";
 import { Revalidation } from "./revalidation";
 
@@ -11,7 +12,15 @@ export default function SwrPage() {
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
         Seed <code>useSWR</code> from a Server Component.
       </p>
-      <div className="mt-8">
+
+      <h2 className="mt-12 text-lg font-semibold">Matching the seeded key</h2>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        The layout seeds a fallback keyed <code>/api/user</code>. A matching key
+        renders instantly from that seed. A mismatched key (
+        <code>/api/user?client</code>) misses the seed, so SWR fetches on the
+        client and you see the skeleton first.
+      </p>
+      <div className="mt-6">
         <Pitfall />
       </div>
 
@@ -29,6 +38,18 @@ export default function SwrPage() {
         <Suspense fallback={<SkeletonPills />}>
           <ProductLinks />
         </Suspense>
+      </div>
+
+      <h2 className="mt-12 text-lg font-semibold">
+        Coordinating the server and client caches
+      </h2>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        The SWR cache owns the badge for instant updates. Marking read clears
+        it optimistically, then a route handler calls <code>revalidateTag</code>{" "}
+        so the next server render is fresh.
+      </p>
+      <div className="mt-6">
+        <ActivityBadge />
       </div>
     </>
   );

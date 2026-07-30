@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import { cacheTag, updateTag } from 'next/cache'
 import { getCachedUser } from '@/lib/user'
 import { SkeletonCard } from '../skeleton'
+import { ActivityBadge } from './activity-badge'
 import { Profile } from './profile'
 
 async function getUserState() {
@@ -45,6 +46,19 @@ export default function ReactQueryPage() {
         <Suspense fallback={<SkeletonCard rows={2} />}>
           <ReactQueryData />
         </Suspense>
+      </div>
+
+      <h2 className="mt-12 text-lg font-semibold">
+        Coordinating the server and client caches
+      </h2>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        The React Query cache owns the badge for instant updates.{' '}
+        <code>onMutate</code> clears it before the request resolves, then a
+        route handler calls <code>revalidateTag</code> so the next server
+        render is fresh.
+      </p>
+      <div className="mt-6">
+        <ActivityBadge />
       </div>
     </>
   )
