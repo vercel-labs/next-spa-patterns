@@ -17,17 +17,16 @@ type HydrationOptions = {
   tags: string[];
 };
 
-// Cache only the timestamp. This is the one non-deterministic value that would
-// otherwise make dehydrate() read the current time during prerendering.
+// Keep the timestamp stable until a matching data tag is invalidated.
 async function getHydrationUpdatedAt(tags: string[]) {
   "use cache";
   cacheTag(...tags);
-  cacheLife("seconds");
+  cacheLife("max");
   return Date.now();
 }
 
 // A dehydrate() that caches only the timestamp, not the data. The caller passes
-// fresh data and the tags that invalidate those reads.
+// fresh data and every write that changes those reads invalidates these tags.
 export async function dehydrate(
   queries: HydratedQuery[],
   options: HydrationOptions,

@@ -4,6 +4,7 @@ import { getProducts } from "@/lib/products";
 import { getCurrentUser } from "@/lib/user";
 import { SkeletonPills, SkeletonCard } from "../skeleton";
 import { PRELOAD_KEY } from "./keys";
+import { ActivityServerState } from "../activity-server-state";
 import { ActivityBadge } from "./activity-badge";
 import { Profile } from "./profile";
 import { PreloadedProfile } from "./preloaded-profile";
@@ -59,12 +60,13 @@ export default function SwrPage() {
         Coordinating the server and client caches
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The SWR cache owns the badge for instant updates. Marking read clears
-        it optimistically, then a route handler calls <code>revalidateTag</code>{" "}
-        so the next server render is fresh.
+        The SWR cache owns the badge for instant updates. Marking read clears it
+        optimistically, then a route handler invalidates the matching tagged
+        server state after a real write.
       </p>
       <div className="mt-6">
         <ActivityBadge />
+        <ActivityServerState />
       </div>
     </>
   );

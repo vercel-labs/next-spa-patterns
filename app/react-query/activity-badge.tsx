@@ -21,8 +21,8 @@ export function ActivityBadge() {
   const markRead = useMutation({
     mutationFn: () => fetch("/api/activity/read", { method: "POST" }),
     // Update the cache immediately, before the request resolves, so the badge
-    // clears right away. The route's `revalidateTag` refreshes the next
-    // server render.
+    // clears right away. After a real write, the route invalidates the matching
+    // server-rendered activity state for the next visit.
     onMutate: () =>
       queryClient.setQueryData(["activity", "unread"], { count: 0 }),
   });

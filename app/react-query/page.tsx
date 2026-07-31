@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { updateTag } from "next/cache";
 import { getCurrentUser } from "@/lib/user";
 import { dehydrate } from "@/lib/react-query-hydration";
+import { ActivityServerState } from "../activity-server-state";
 import { SkeletonCard } from "../skeleton";
 import { ActivityBadge } from "./activity-badge";
 import { Profile } from "./profile";
@@ -47,11 +48,12 @@ export default function ReactQueryPage() {
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         The React Query cache owns the badge for instant updates.{" "}
         <code>onMutate</code> clears it before the request resolves, then a
-        route handler calls <code>revalidateTag</code> so the next server render
-        is fresh.
+        route handler invalidates the matching tagged server state after a real
+        write, so the next server render is fresh.
       </p>
       <div className="mt-6">
         <ActivityBadge />
+        <ActivityServerState />
       </div>
     </>
   );

@@ -2,9 +2,9 @@ import { revalidateTag } from "next/cache";
 import { markActivityRead } from "@/lib/activity";
 
 export async function POST() {
-  await markActivityRead();
-  // `'max'` keeps this request fast: serve cached data and refresh in the
-  // background, rather than blocking for fresh data.
-  revalidateTag("activity", "max");
+  const changed = await markActivityRead();
+  if (changed) {
+    revalidateTag("activity", { expire: 0 });
+  }
   return new Response(null, { status: 204 });
 }
