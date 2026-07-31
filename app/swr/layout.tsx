@@ -1,13 +1,13 @@
 import { SWRConfig } from "swr";
 import { getCurrentUser } from "@/lib/user";
-import { USER_KEY } from "./keys";
+import { userCache } from "./user-cache";
 
 export default function SwrLayout({ children }: LayoutProps<"/swr">) {
   return (
     <SWRConfig
       value={{
         fallback: {
-          [USER_KEY]: getCurrentUser(),
+          [userCache.key]: getCurrentUser(),
         },
       }}
     >

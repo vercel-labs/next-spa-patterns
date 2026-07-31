@@ -1,16 +1,10 @@
 "use client";
 
-import useSWR from "swr";
-import type { Product } from "@/lib/products";
+import { useSuspenseQuery } from "@tanstack/react-query";
 import { productCache } from "./product-cache";
 
-const fetcher = (url: string): Promise<Product> =>
-  fetch(url).then((res) => res.json());
-
 export function ProductView({ id }: { id: number }) {
-  const { data } = useSWR<Product>(productCache.key(id), fetcher, {
-    suspense: true,
-  });
+  const { data } = useSuspenseQuery(productCache.options(id));
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">

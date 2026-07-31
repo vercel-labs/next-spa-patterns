@@ -5,7 +5,7 @@ import { activityCache } from "@/lib/activity-cache";
 import { getProducts } from "@/lib/products";
 import { getCurrentUser } from "@/lib/user";
 import { SkeletonPills, SkeletonCard } from "../skeleton";
-import { PRELOAD_KEY } from "./keys";
+import { userCache } from "./user-cache";
 import { ActivityBadge } from "./activity-badge";
 import { Profile } from "./profile";
 import { PreloadedProfile } from "./preloaded-profile";
@@ -25,7 +25,8 @@ export default function SwrPage() {
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         The layout seeds an <code>SWRConfig</code> fallback keyed{" "}
         <code>/api/user</code>. Because <code>useSWR</code> reads the same key,
-        the profile renders instantly from that seed with no client fetch.
+        the profile can render from the server value before client
+        revalidation runs.
       </p>
       <div className="mt-6">
         <Suspense fallback={<SkeletonCard />}>
@@ -42,7 +43,9 @@ export default function SwrPage() {
       </p>
       <div className="mt-6">
         <SWRConfig
-          value={{ cacheData: preload(PRELOAD_KEY, () => getCurrentUser()) }}
+          value={{
+            cacheData: preload(userCache.preloadKey, () => getCurrentUser()),
+          }}
         >
           <Suspense fallback={<SkeletonCard />}>
             <PreloadedProfile />
@@ -68,9 +71,9 @@ export default function SwrPage() {
       <div className="mt-6">
         <SWRConfig
           value={{
-            fallback: {
-              [activityCache.swrKey]: getCachedUnreadActivity(),
-            },
+            cacheData: preload(activityCache.swrKey, () =>
+              getCachedUnreadActivity(),
+            ),
           }}
         >
           <Suspense fallback={<SkeletonCard rows={1} />}>

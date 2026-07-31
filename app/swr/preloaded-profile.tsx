@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import type { User } from "@/lib/user";
-import { PRELOAD_KEY } from "./keys";
+import { userCache } from "./user-cache";
 
 const localUsers: User[] = [
   { id: "1", name: "Ada Lovelace", email: "ada@example.com" },
@@ -10,7 +10,7 @@ const localUsers: User[] = [
 ];
 
 export function PreloadedProfile() {
-  const { data, mutate } = useSWR<User>(PRELOAD_KEY, { suspense: true });
+  const { data, mutate } = useSWR<User>(userCache.preloadKey, { suspense: true });
   const nextUser = data?.id === "1" ? localUsers[1] : localUsers[0];
 
   return (

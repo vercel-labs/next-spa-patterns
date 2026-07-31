@@ -1,8 +1,8 @@
 import { Suspense } from "react";
 import { SWRConfig } from "swr";
-import { getProduct } from "@/lib/products";
 import { SkeletonCard } from "../../skeleton";
-import { productKey } from "../keys";
+import { getCachedProduct } from "./data";
+import { productCache } from "./product-cache";
 import { ProductView } from "./product-view";
 
 export function generateStaticParams() {
@@ -38,7 +38,7 @@ function ProductData({ id }: { id: number }) {
     <SWRConfig
       value={{
         fallback: {
-          [productKey(id)]: getProduct(id),
+          [productCache.key(id)]: getCachedProduct(id),
         },
       }}
     >
