@@ -1,6 +1,6 @@
 "use client";
 
-import useSWR, { useSWRConfig } from "swr";
+import useSWR from "swr";
 import type { UnreadActivity } from "@/lib/activity";
 import { UNREAD_ACTIVITY_KEY } from "./keys";
 
@@ -10,28 +10,29 @@ const fetcher = (url: string): Promise<UnreadActivity> =>
 const buttonClass =
   "rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900";
 
-// The SWR cache owns this badge read. It polls the API route so the count
-// stays live, and a mutation can update it optimistically.
+// The SWR cache owns this badge read and mutations update it optimistically.
 export function ActivityBadge() {
-  const { mutate } = useSWRConfig();
-  const { data, isValidating } = useSWR<UnreadActivity>(
+  const { data, isValidating, mutate } = useSWR<UnreadActivity>(
     UNREAD_ACTIVITY_KEY,
     fetcher,
-    { refreshInterval: 5000 },
   );
 
-  async function markRead() {
-    // Update the SWR cache immediately, without revalidating, so the badge
-    // clears before the request resolves.
-    mutate(UNREAD_ACTIVITY_KEY, { count: 0 }, { revalidate: false });
-    // After a real write, the route invalidates the matching server seed so the
-    // next visit is fresh.
-    await fetch("/api/activity/read", { method: "POST" });
-  }
-
-  async function reset() {
-    await fetch("/api/activity/reset", { method: "POST" });
-    mutate(UNREAD_ACTIVITY_KEY);
+  function updateActivity(url: string, optimisticData: UnreadActivity) {
+    return mutate(
+      async () => {
+        const response = await fetch(url, { method: "POST" });
+        if (!response.ok) {
+          throw new Error("Failed to update activity");
+        }
+        return response.json();
+      },
+      {
+        optimisticData,
+        revalidate: false,
+        rollbackOnError: true,
+        throwOnError: false,
+      },
+    );
   }
 
   return (
@@ -53,10 +54,16 @@ export function ActivityBadge() {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <button className={buttonClass} onClick={markRead}>
+        <button
+          className={buttonClass}
+          onClick={() => updateActivity("/api/activity/read", { count: 0 })}
+        >
           Mark read
         </button>
-        <button className={buttonClass} onClick={reset}>
+        <button
+          className={buttonClass}
+          onClick={() => updateActivity("/api/activity/reset", { count: 3 })}
+        >
           Reset
         </button>
       </div>

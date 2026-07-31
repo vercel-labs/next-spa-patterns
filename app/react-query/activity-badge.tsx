@@ -6,32 +6,49 @@ import type { UnreadActivity } from "@/lib/activity";
 const buttonClass =
   "rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900";
 
-// The React Query cache owns this badge read. It polls the API route so the
-// count stays live, and a mutation can update it optimistically.
-export function ActivityBadge() {
+const activityKey = ["activity", "unread"] as const;
+
+async function updateActivity(url: string): Promise<UnreadActivity> {
+  const response = await fetch(url, { method: "POST" });
+  if (!response.ok) {
+    throw new Error("Failed to update activity");
+  }
+  return response.json();
+}
+
+function useUpdateActivity(url: string, optimisticData: UnreadActivity) {
   const queryClient = useQueryClient();
 
+  return useMutation({
+    mutationFn: () => updateActivity(url),
+    onMutate: async () => {
+      await queryClient.cancelQueries({ queryKey: activityKey });
+      const previous = queryClient.getQueryData<UnreadActivity>(activityKey);
+      queryClient.setQueryData(activityKey, optimisticData);
+      return { previous };
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previous) {
+        queryClient.setQueryData(activityKey, context.previous);
+      }
+    },
+    onSuccess: (activity) => {
+      queryClient.setQueryData(activityKey, activity);
+    },
+  });
+}
+
+// The React Query cache owns this badge read and mutations update it
+// optimistically.
+export function ActivityBadge() {
   const { data, isFetching } = useQuery({
-    queryKey: ["activity", "unread"],
+    queryKey: activityKey,
     queryFn: (): Promise<UnreadActivity> =>
       fetch("/api/activity/unread").then((res) => res.json()),
-    refetchInterval: 5000,
   });
 
-  const markRead = useMutation({
-    mutationFn: () => fetch("/api/activity/read", { method: "POST" }),
-    // Update the cache immediately, before the request resolves, so the badge
-    // clears right away. After a real write, the route invalidates the matching
-    // server seed for the next visit.
-    onMutate: () =>
-      queryClient.setQueryData(["activity", "unread"], { count: 0 }),
-  });
-
-  const reset = useMutation({
-    mutationFn: () => fetch("/api/activity/reset", { method: "POST" }),
-    onSuccess: () =>
-      queryClient.invalidateQueries({ queryKey: ["activity", "unread"] }),
-  });
+  const markRead = useUpdateActivity("/api/activity/read", { count: 0 });
+  const reset = useUpdateActivity("/api/activity/reset", { count: 3 });
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">

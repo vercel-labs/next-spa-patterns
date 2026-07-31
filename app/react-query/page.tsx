@@ -60,9 +60,9 @@ export default function ReactQueryPage() {
         Coordinating the server and client caches
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The tagged server read seeds the React Query cache.{" "}
-        <code>onMutate</code> clears the badge before the request resolves, then
-        the route handler invalidates that server seed for the next visit.
+        The tagged server read seeds the React Query cache. The mutation updates
+        the badge optimistically, then commits the value returned by the write.
+        The route handler also invalidates the server seed for the next visit.
       </p>
       <div className="mt-6">
         <Suspense fallback={<SkeletonCard rows={1} />}>
