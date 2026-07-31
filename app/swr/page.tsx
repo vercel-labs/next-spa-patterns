@@ -1,14 +1,12 @@
 import { Suspense } from "react";
-import { preload, SWRConfig } from "swr";
+import { SWRConfig } from "swr";
 import { getCachedUnreadActivity } from "@/lib/activity";
 import { activityCache } from "@/lib/activity-cache";
 import { getProducts } from "@/lib/products";
-import { getCurrentUser } from "@/lib/user";
 import { SkeletonPills, SkeletonCard } from "../skeleton";
-import { userCache } from "./user-cache";
 import { ActivityBadge } from "./activity-badge";
+import { DataErrorBoundary } from "./data-error-boundary";
 import { Profile } from "./profile";
-import { PreloadedProfile } from "./preloaded-profile";
 
 export default function SwrPage() {
   return (
@@ -29,28 +27,11 @@ export default function SwrPage() {
         runs.
       </p>
       <div className="mt-6">
-        <Suspense fallback={<SkeletonCard />}>
-          <Profile />
-        </Suspense>
-      </div>
-
-      <h2 className="mt-12 text-lg font-semibold">Seeding with preload</h2>
-      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        A <code>fallback</code> only sets the first render value. To seed a real
-        cache entry you can mutate, use <code>preload</code> with{" "}
-        <code>cacheData</code> (SWR 2.5 beta). Mutating updates that entry
-        directly.
-      </p>
-      <div className="mt-6">
-        <SWRConfig
-          value={{
-            cacheData: preload(userCache.preloadKey, () => getCurrentUser()),
-          }}
-        >
+        <DataErrorBoundary>
           <Suspense fallback={<SkeletonCard />}>
-            <PreloadedProfile />
+            <Profile />
           </Suspense>
-        </SWRConfig>
+        </DataErrorBoundary>
       </div>
 
       <h2 className="mt-12 text-lg font-semibold">Route-scoped data</h2>
@@ -71,14 +52,16 @@ export default function SwrPage() {
       <div className="mt-6">
         <SWRConfig
           value={{
-            cacheData: preload(activityCache.swrKey, () =>
-              getCachedUnreadActivity(),
-            ),
+            fallback: {
+              [activityCache.swrKey]: getCachedUnreadActivity(),
+            },
           }}
         >
-          <Suspense fallback={<SkeletonCard rows={1} />}>
-            <ActivityBadge />
-          </Suspense>
+          <DataErrorBoundary>
+            <Suspense fallback={<SkeletonCard rows={1} />}>
+              <ActivityBadge />
+            </Suspense>
+          </DataErrorBoundary>
         </SWRConfig>
       </div>
     </>

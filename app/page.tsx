@@ -30,7 +30,7 @@ const libraryPatterns = [
     href: '/swr',
     title: 'Client-side data fetching with SWR',
     description:
-      'Seed a scoped SWRConfig fallback from a Server Component, then coordinate caches on mutation. Includes the preload cacheData variant.',
+      'Seed a scoped SWRConfig fallback from a Server Component, then coordinate caches on mutation.',
   },
   {
     href: '/react-query',
