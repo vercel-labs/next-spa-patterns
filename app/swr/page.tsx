@@ -60,9 +60,9 @@ export default function SwrPage() {
         Coordinating the server and client caches
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The tagged server read seeds the SWR cache. Marking read clears the badge
-        optimistically, then the route handler invalidates that server seed for
-        the next visit.
+        The tagged server read seeds the SWR cache. Marking read clears the
+        badge optimistically, then the route handler invalidates that server
+        seed for the next visit.
       </p>
       <div className="mt-6">
         <SWRConfig
