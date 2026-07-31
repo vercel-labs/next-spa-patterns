@@ -14,7 +14,9 @@ async function refreshUser() {
 
 async function ReactQueryData() {
   const user = await getCurrentUser();
-  const state = await dehydrate([{ queryKey: ["user"], data: user }]);
+  const state = await dehydrate([{ queryKey: ["user"], data: user }], {
+    tags: ["current-user"],
+  });
 
   return (
     <HydrationBoundary state={state}>
@@ -30,8 +32,8 @@ export default function ReactQueryPage() {
         SPAs with React Query
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Cache the <code>dehydrate</code> payload, then <code>updateTag</code> to
-        refill it. The <code>cached at</code> stamp changes on update.
+        Cache and tag the hydration timestamp, then <code>updateTag</code> to
+        advance the data and timestamp together.
       </p>
       <div className="mt-8">
         <Suspense fallback={<SkeletonCard rows={2} />}>

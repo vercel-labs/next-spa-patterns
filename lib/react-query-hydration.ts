@@ -1,6 +1,6 @@
 import "server-only";
 
-import { cacheLife } from "next/cache";
+import { cacheLife, cacheTag } from "next/cache";
 import {
   defaultShouldDehydrateQuery,
   QueryClient,
@@ -14,24 +14,25 @@ type HydratedQuery = {
 };
 
 type HydrationOptions = {
-  stale?: number;
+  tags: string[];
 };
 
 // Cache only the timestamp. This is the one non-deterministic value that would
 // otherwise make dehydrate() read the current time during prerendering.
-async function getHydrationUpdatedAt(stale: number) {
+async function getHydrationUpdatedAt(tags: string[]) {
   "use cache";
-  cacheLife({ stale });
+  cacheTag(...tags);
+  cacheLife("seconds");
   return Date.now();
 }
 
 // A dehydrate() that caches only the timestamp, not the data. The caller passes
-// fresh data in; `stale` controls how long the client treats it as fresh.
+// fresh data and the tags that invalidate those reads.
 export async function dehydrate(
   queries: HydratedQuery[],
-  options: HydrationOptions = {},
+  options: HydrationOptions,
 ): Promise<DehydratedState> {
-  const updatedAt = await getHydrationUpdatedAt(options.stale ?? 30);
+  const updatedAt = await getHydrationUpdatedAt(options.tags);
 
   const queryClient = new QueryClient();
 
