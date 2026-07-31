@@ -40,7 +40,7 @@ export function ActivityBadge() {
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
       <div className="flex items-center gap-2">
         <span className="font-semibold">Activity</span>
-        {data.count > 0 ? (
+        {data && data.count > 0 ? (
           <span className="rounded-full bg-red-500 px-2 py-0.5 text-xs font-medium text-white">
             {data.count}
           </span>

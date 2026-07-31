@@ -8,6 +8,7 @@ import { getCurrentUser } from "@/lib/user";
 import { dehydrate } from "@/lib/react-query-hydration";
 import { SkeletonCard, SkeletonPills } from "../skeleton";
 import { ActivityBadge } from "./activity-badge";
+import { ClientQueryExamples } from "./client-query-examples";
 import { Profile } from "./profile";
 
 async function refreshUser() {
@@ -49,9 +50,19 @@ export default function ReactQueryPage() {
         SPAs with React Query
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Seed React Query from a Server Component, cache the server read, then
-        coordinate the server and client caches on mutation.
+        Fetch only on the client, use Suspense for loading states, or seed the
+        client cache from a Server Component.
       </p>
+
+      <h2 className="mt-12 text-lg font-semibold">Client-only queries</h2>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        These searches start after interaction and are not seeded by the
+        server. One renders query state inline and one uses a local Suspense
+        boundary.
+      </p>
+      <div className="mt-6">
+        <ClientQueryExamples />
+      </div>
 
       <h2 className="mt-12 text-lg font-semibold">Seeding from the server</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">

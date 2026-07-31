@@ -5,7 +5,7 @@ import { activityCache } from "@/lib/activity-cache";
 import { getProducts } from "@/lib/products";
 import { SkeletonPills, SkeletonCard } from "../skeleton";
 import { ActivityBadge } from "./activity-badge";
-import { DataErrorBoundary } from "./data-error-boundary";
+import { ClientQueryExamples } from "./client-query-examples";
 import { Profile } from "./profile";
 
 export default function SwrPage() {
@@ -15,9 +15,19 @@ export default function SwrPage() {
         Client-side data fetching with SWR
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Seed <code>useSWR</code> from a Server Component, cache the server read,
-        then coordinate the server and client caches on mutation.
+        Fetch only on the client, use Suspense for loading states, or seed the
+        SWR cache from a Server Component.
       </p>
+
+      <h2 className="mt-12 text-lg font-semibold">Client-only queries</h2>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        These searches start after interaction and are not seeded by the
+        server. One renders SWR state inline and one uses a local Suspense
+        boundary.
+      </p>
+      <div className="mt-6">
+        <ClientQueryExamples />
+      </div>
 
       <h2 className="mt-12 text-lg font-semibold">Seeding from the server</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
@@ -27,11 +37,9 @@ export default function SwrPage() {
         runs.
       </p>
       <div className="mt-6">
-        <DataErrorBoundary>
-          <Suspense fallback={<SkeletonCard />}>
-            <Profile />
-          </Suspense>
-        </DataErrorBoundary>
+        <Suspense fallback={<SkeletonCard />}>
+          <Profile />
+        </Suspense>
       </div>
 
       <h2 className="mt-12 text-lg font-semibold">Route-scoped data</h2>
@@ -57,11 +65,9 @@ export default function SwrPage() {
             },
           }}
         >
-          <DataErrorBoundary>
-            <Suspense fallback={<SkeletonCard rows={1} />}>
-              <ActivityBadge />
-            </Suspense>
-          </DataErrorBoundary>
+          <Suspense fallback={<SkeletonCard rows={1} />}>
+            <ActivityBadge />
+          </Suspense>
         </SWRConfig>
       </div>
     </>

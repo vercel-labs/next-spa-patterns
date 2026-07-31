@@ -1,7 +1,6 @@
 import { Suspense } from "react";
 import { SWRConfig } from "swr";
 import { SkeletonCard } from "../../skeleton";
-import { DataErrorBoundary } from "../data-error-boundary";
 import { getCachedProduct } from "./data";
 import { productCache } from "./product-cache";
 import { ProductView } from "./product-view";
@@ -14,13 +13,11 @@ export default function ScopedSwrPage({ params }: PageProps<"/swr/[id]">) {
         Seed the product fallback for this route segment.
       </p>
       <div className="mt-8">
-        <DataErrorBoundary>
-          <Suspense fallback={<SkeletonCard />}>
-            {params.then(({ id }) => (
-              <ProductData id={Number(id)} />
-            ))}
-          </Suspense>
-        </DataErrorBoundary>
+        <Suspense fallback={<SkeletonCard />}>
+          {params.then(({ id }) => (
+            <ProductData id={Number(id)} />
+          ))}
+        </Suspense>
       </div>
       <a
         href="/swr"

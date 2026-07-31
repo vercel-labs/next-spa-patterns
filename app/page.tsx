@@ -30,13 +30,13 @@ const libraryPatterns = [
     href: '/swr',
     title: 'Client-side data fetching with SWR',
     description:
-      'Seed a scoped SWRConfig fallback from a Server Component, then coordinate caches on mutation.',
+      'Compare inline and Suspense client fetching, then seed a scoped SWRConfig fallback from a Server Component.',
   },
   {
     href: '/react-query',
     title: 'Client-side data fetching with TanStack Query',
     description:
-      'Prefetch without awaiting, dehydrate into a HydrationBoundary, and read the cache with useSuspenseQuery on the client.',
+      'Compare useQuery and useSuspenseQuery, then seed a HydrationBoundary from a Server Component.',
   },
 ]
 
