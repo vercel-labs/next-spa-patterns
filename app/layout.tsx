@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import { GeistSans } from "geist/font/sans";
 import { GeistMono } from "geist/font/mono";
+import { Suspense } from "react";
 import "./globals.css";
-import { Nav } from "./nav";
+import { Nav, NavFallback } from "./nav";
 
 export const metadata: Metadata = {
   title: "Next.js SPA patterns",
@@ -17,7 +18,9 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${GeistSans.variable} ${GeistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col font-sans">
-        <Nav />
+        <Suspense fallback={<NavFallback />}>
+          <Nav />
+        </Suspense>
         <main className="mx-auto w-full max-w-3xl flex-1 px-6 py-16">
           {children}
         </main>

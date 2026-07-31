@@ -1,29 +1,37 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 // Native patterns, in the order the guide's Examples section lists them.
 const nativeLinks = [
-  { href: '/use-context', label: 'use() + Context' },
-  { href: '/browser-only', label: 'Browser-only' },
-  { href: '/shallow-routing', label: 'Shallow routing' },
-  { href: '/mutations', label: 'Mutations' },
-] as const
+  { href: "/use-context", label: "use() + Context" },
+  { href: "/browser-only", label: "Browser-only" },
+  { href: "/shallow-routing", label: "Shallow routing" },
+  { href: "/mutations", label: "Mutations" },
+] as const;
 
 // Client-side data-fetching libraries, matching the guide's split child pages.
 const libraryLinks = [
-  { href: '/swr', label: 'SWR' },
-  { href: '/react-query', label: 'TanStack Query' },
-] as const
+  { href: "/swr", label: "SWR" },
+  { href: "/react-query", label: "TanStack Query" },
+] as const;
 
 export function Nav() {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
+  return <NavContent pathname={pathname} />;
+}
+
+export function NavFallback() {
+  return <NavContent />;
+}
+
+function NavContent({ pathname }: { pathname?: string }) {
   function linkClass(active: boolean) {
     return active
-      ? 'shrink-0 rounded-md bg-zinc-100 px-2.5 py-1 font-medium text-foreground dark:bg-zinc-800'
-      : 'shrink-0 rounded-md px-2.5 py-1 text-zinc-500 hover:text-foreground dark:text-zinc-400'
+      ? "shrink-0 rounded-md bg-zinc-100 px-2.5 py-1 font-medium text-foreground dark:bg-zinc-800"
+      : "shrink-0 rounded-md px-2.5 py-1 text-zinc-500 hover:text-foreground dark:text-zinc-400";
   }
 
   return (
@@ -37,7 +45,7 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              aria-current={pathname === link.href ? 'page' : undefined}
+              aria-current={pathname === link.href ? "page" : undefined}
               className={linkClass(pathname === link.href)}
             >
               {link.label}
@@ -51,7 +59,7 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              aria-current={pathname === link.href ? 'page' : undefined}
+              aria-current={pathname === link.href ? "page" : undefined}
               className={linkClass(pathname === link.href)}
             >
               {link.label}
@@ -60,5 +68,5 @@ export function Nav() {
         </nav>
       </div>
     </header>
-  )
+  );
 }
