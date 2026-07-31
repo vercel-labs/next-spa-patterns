@@ -1,9 +1,9 @@
 import { HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { updateTag } from "next/cache";
+import { getCachedUnreadActivity } from "@/lib/activity";
 import { getCurrentUser } from "@/lib/user";
 import { dehydrate } from "@/lib/react-query-hydration";
-import { ActivityServerState } from "../activity-server-state";
 import { SkeletonCard } from "../skeleton";
 import { ActivityBadge } from "./activity-badge";
 import { Profile } from "./profile";
@@ -22,6 +22,20 @@ async function ReactQueryData() {
   return (
     <HydrationBoundary state={state}>
       <Profile refreshUser={refreshUser} />
+    </HydrationBoundary>
+  );
+}
+
+async function ActivityData() {
+  const activity = await getCachedUnreadActivity();
+  const state = await dehydrate(
+    [{ queryKey: ["activity", "unread"], data: activity }],
+    { tags: ["activity"] },
+  );
+
+  return (
+    <HydrationBoundary state={state}>
+      <ActivityBadge />
     </HydrationBoundary>
   );
 }
@@ -46,14 +60,14 @@ export default function ReactQueryPage() {
         Coordinating the server and client caches
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The React Query cache owns the badge for instant updates.{" "}
-        <code>onMutate</code> clears it before the request resolves, then a
-        route handler invalidates the matching tagged server state after a real
-        write, so the next server render is fresh.
+        The tagged server read seeds the React Query cache.{" "}
+        <code>onMutate</code> clears the badge before the request resolves, then
+        the route handler invalidates that server seed for the next visit.
       </p>
       <div className="mt-6">
-        <ActivityBadge />
-        <ActivityServerState />
+        <Suspense fallback={<SkeletonCard rows={1} />}>
+          <ActivityData />
+        </Suspense>
       </div>
     </>
   );

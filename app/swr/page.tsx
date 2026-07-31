@@ -1,10 +1,10 @@
 import { Suspense } from "react";
 import { preload, SWRConfig } from "swr";
+import { getCachedUnreadActivity } from "@/lib/activity";
 import { getProducts } from "@/lib/products";
 import { getCurrentUser } from "@/lib/user";
 import { SkeletonPills, SkeletonCard } from "../skeleton";
-import { PRELOAD_KEY } from "./keys";
-import { ActivityServerState } from "../activity-server-state";
+import { PRELOAD_KEY, UNREAD_ACTIVITY_KEY } from "./keys";
 import { ActivityBadge } from "./activity-badge";
 import { Profile } from "./profile";
 import { PreloadedProfile } from "./preloaded-profile";
@@ -60,13 +60,22 @@ export default function SwrPage() {
         Coordinating the server and client caches
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The SWR cache owns the badge for instant updates. Marking read clears it
-        optimistically, then a route handler invalidates the matching tagged
-        server state after a real write.
+        The tagged server read seeds the SWR cache. Marking read clears the badge
+        optimistically, then the route handler invalidates that server seed for
+        the next visit.
       </p>
       <div className="mt-6">
-        <ActivityBadge />
-        <ActivityServerState />
+        <SWRConfig
+          value={{
+            fallback: {
+              [UNREAD_ACTIVITY_KEY]: getCachedUnreadActivity(),
+            },
+          }}
+        >
+          <Suspense fallback={<SkeletonCard rows={1} />}>
+            <ActivityBadge />
+          </Suspense>
+        </SWRConfig>
       </div>
     </>
   );

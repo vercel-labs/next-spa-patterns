@@ -24,8 +24,8 @@ export function ActivityBadge() {
     // Update the SWR cache immediately, without revalidating, so the badge
     // clears before the request resolves.
     mutate(UNREAD_ACTIVITY_KEY, { count: 0 }, { revalidate: false });
-    // After a real write, the route invalidates the matching server-rendered
-    // activity state so the next visit is fresh.
+    // After a real write, the route invalidates the matching server seed so the
+    // next visit is fresh.
     await fetch("/api/activity/read", { method: "POST" });
   }
 
