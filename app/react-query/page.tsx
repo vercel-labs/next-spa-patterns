@@ -3,9 +3,10 @@ import { Suspense } from "react";
 import { updateTag } from "next/cache";
 import { getCachedUnreadActivity } from "@/lib/activity";
 import { activityCache } from "@/lib/activity-cache";
+import { getProducts } from "@/lib/products";
 import { getCurrentUser } from "@/lib/user";
 import { dehydrate } from "@/lib/react-query-hydration";
-import { SkeletonCard } from "../skeleton";
+import { SkeletonCard, SkeletonPills } from "../skeleton";
 import { ActivityBadge } from "./activity-badge";
 import { Profile } from "./profile";
 
@@ -63,6 +64,13 @@ export default function ReactQueryPage() {
         </Suspense>
       </div>
 
+      <h2 className="mt-12 text-lg font-semibold">Route-scoped data</h2>
+      <div className="mt-6">
+        <Suspense fallback={<SkeletonPills />}>
+          <ProductLinks />
+        </Suspense>
+      </div>
+
       <h2 className="mt-12 text-lg font-semibold">
         Coordinating the server and client caches
       </h2>
@@ -77,5 +85,23 @@ export default function ReactQueryPage() {
         </Suspense>
       </div>
     </>
+  );
+}
+
+async function ProductLinks() {
+  const products = await getProducts();
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {products.map((product) => (
+        <a
+          key={product.id}
+          href={`/react-query/${product.id}`}
+          className="rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900"
+        >
+          {product.name}
+        </a>
+      ))}
+    </div>
   );
 }

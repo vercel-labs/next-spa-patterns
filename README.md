@@ -15,16 +15,16 @@ Open [http://localhost:3000](http://localhost:3000). Open the browser's network 
 
 ## What each route shows
 
-| Route              | Guide section                                 | What to look for                                                                                                                                                               |
-| ------------------ | --------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `/use-context`     | Using React's `use` within a Context Provider | The layout starts `getUser()` unawaited and passes the Promise through context; `Profile` unwraps it with `use()` and suspends.                                                |
-| `/swr`             | SPAs with SWR                                 | A scoped `<SWRConfig>` fallback is seeded from the server. The **Matching key** reads it with no client fetch; the **Mismatched key** silently ignores the seed and refetches. |
-| `/swr/[id]`        | SPAs with SWR (scoped to a route segment)     | `params.then()` resolves the `id` inside `<Suspense>` and seeds the fallback for just that product, so the page shell stays static.                                            |
-| `/swr-preload`     | SPAs with SWR                                 | SWR 2.5 beta `preload` fills `SWRConfig` `cacheData` from a Server Component; the Client Component reads and mutates the same key without an API route.                         |
-| `/react-query`     | SPAs with TanStack Query                      | Cached reads and a tag-coordinated hydration timestamp seed `<HydrationBoundary>`; `useSuspenseQuery` reads the same key.                                                   |
-| `/browser-only`    | Rendering components only in the browser      | A component loaded with `next/dynamic` + `ssr: false` that reads `window`.                                                                                                     |
-| `/shallow-routing` | Shallow routing on the client                 | `window.history.pushState` updates `?sort=` with no reload; `useSearchParams` re-sorts the list.                                                                               |
-| `/mutations`       | Mutating data with Server Actions             | A to-do list where a Server Action runs as an async reducer via `useActionState`, and `useOptimistic` (sharing one reducer with the server) applies each change instantly.     |
+| Route               | Guide section                                        | What to look for                                                                                                                                                           |
+| ------------------- | ---------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/use-context`      | Using React's `use` within a Context Provider        | The layout starts `getUser()` unawaited and passes the Promise through context; `Profile` unwraps it with `use()` and suspends.                                            |
+| `/swr`              | SPAs with SWR                                        | Shows `fallback` seeding, `preload` with `cacheData`, and an optimistic mutation coordinated with a tagged server read.                                                    |
+| `/swr/[id]`         | SPAs with SWR (scoped to a route segment)            | `params.then()` resolves the `id` inside `<Suspense>` and seeds only that product from a tagged cached server read.                                                        |
+| `/react-query`      | SPAs with TanStack Query                             | Cached reads and a tag-coordinated hydration timestamp seed `<HydrationBoundary>`; optimistic mutations update the same client identity.                                   |
+| `/react-query/[id]` | SPAs with TanStack Query (scoped to a route segment) | The product cache contract owns its query key, server tag, and query options; a tagged cached read seeds `useSuspenseQuery`.                                               |
+| `/browser-only`     | Rendering components only in the browser             | A component loaded with `next/dynamic` + `ssr: false` that reads `window`.                                                                                                 |
+| `/shallow-routing`  | Shallow routing on the client                        | `window.history.pushState` updates `?sort=` with no reload; `useSearchParams` re-sorts the list.                                                                           |
+| `/mutations`        | Mutating data with Server Actions                    | A to-do list where a Server Action runs as an async reducer via `useActionState`, and `useOptimistic` (sharing one reducer with the server) applies each change instantly. |
 
 ## Configuration
 

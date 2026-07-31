@@ -25,8 +25,8 @@ export default function SwrPage() {
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         The layout seeds an <code>SWRConfig</code> fallback keyed{" "}
         <code>/api/user</code>. Because <code>useSWR</code> reads the same key,
-        the profile can render from the server value before client
-        revalidation runs.
+        the profile can render from the server value before client revalidation
+        runs.
       </p>
       <div className="mt-6">
         <Suspense fallback={<SkeletonCard />}>
