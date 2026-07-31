@@ -2,11 +2,10 @@
 
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { UnreadActivity } from "@/lib/activity";
+import { activityCache } from "@/lib/activity-cache";
 
 const buttonClass =
   "rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900";
-
-const activityKey = ["activity", "unread"] as const;
 
 async function updateActivity(url: string): Promise<UnreadActivity> {
   const response = await fetch(url, { method: "POST" });
@@ -22,18 +21,20 @@ function useUpdateActivity(url: string, optimisticData: UnreadActivity) {
   return useMutation({
     mutationFn: () => updateActivity(url),
     onMutate: async () => {
-      await queryClient.cancelQueries({ queryKey: activityKey });
-      const previous = queryClient.getQueryData<UnreadActivity>(activityKey);
-      queryClient.setQueryData(activityKey, optimisticData);
+      await queryClient.cancelQueries({ queryKey: activityCache.queryKey });
+      const previous = queryClient.getQueryData<UnreadActivity>(
+        activityCache.queryKey,
+      );
+      queryClient.setQueryData(activityCache.queryKey, optimisticData);
       return { previous };
     },
     onError: (_error, _variables, context) => {
       if (context?.previous) {
-        queryClient.setQueryData(activityKey, context.previous);
+        queryClient.setQueryData(activityCache.queryKey, context.previous);
       }
     },
     onSuccess: (activity) => {
-      queryClient.setQueryData(activityKey, activity);
+      queryClient.setQueryData(activityCache.queryKey, activity);
     },
   });
 }
@@ -42,7 +43,7 @@ function useUpdateActivity(url: string, optimisticData: UnreadActivity) {
 // optimistically.
 export function ActivityBadge() {
   const { data, isFetching } = useQuery({
-    queryKey: activityKey,
+    queryKey: activityCache.queryKey,
     queryFn: (): Promise<UnreadActivity> =>
       fetch("/api/activity/unread").then((res) => res.json()),
   });

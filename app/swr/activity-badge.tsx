@@ -2,7 +2,7 @@
 
 import useSWR from "swr";
 import type { UnreadActivity } from "@/lib/activity";
-import { UNREAD_ACTIVITY_KEY } from "./keys";
+import { activityCache } from "@/lib/activity-cache";
 
 const fetcher = (url: string): Promise<UnreadActivity> =>
   fetch(url).then((res) => res.json());
@@ -13,7 +13,7 @@ const buttonClass =
 // The SWR cache owns this badge read and mutations update it optimistically.
 export function ActivityBadge() {
   const { data, isValidating, mutate } = useSWR<UnreadActivity>(
-    UNREAD_ACTIVITY_KEY,
+    activityCache.swrKey,
     fetcher,
   );
 

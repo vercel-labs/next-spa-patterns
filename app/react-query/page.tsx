@@ -2,6 +2,7 @@ import { HydrationBoundary } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { updateTag } from "next/cache";
 import { getCachedUnreadActivity } from "@/lib/activity";
+import { activityCache } from "@/lib/activity-cache";
 import { getCurrentUser } from "@/lib/user";
 import { dehydrate } from "@/lib/react-query-hydration";
 import { SkeletonCard } from "../skeleton";
@@ -29,8 +30,8 @@ async function ReactQueryData() {
 async function ActivityData() {
   const activity = await getCachedUnreadActivity();
   const state = await dehydrate(
-    [{ queryKey: ["activity", "unread"], data: activity }],
-    { tags: ["activity"] },
+    [{ queryKey: activityCache.queryKey, data: activity }],
+    { tags: [activityCache.tag] },
   );
 
   return (
@@ -47,8 +48,14 @@ export default function ReactQueryPage() {
         SPAs with React Query
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Cache and tag the hydration timestamp, then <code>updateTag</code> to
-        advance the data and timestamp together.
+        Seed React Query from a Server Component, cache the server read, then
+        coordinate the server and client caches on mutation.
+      </p>
+
+      <h2 className="mt-12 text-lg font-semibold">Seeding from the server</h2>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        The server read and its hydration timestamp share a tag, while React
+        Query independently owns browser freshness and refetching.
       </p>
       <div className="mt-8">
         <Suspense fallback={<SkeletonCard rows={2} />}>

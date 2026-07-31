@@ -1,10 +1,11 @@
 import { Suspense } from "react";
 import { preload, SWRConfig } from "swr";
 import { getCachedUnreadActivity } from "@/lib/activity";
+import { activityCache } from "@/lib/activity-cache";
 import { getProducts } from "@/lib/products";
 import { getCurrentUser } from "@/lib/user";
 import { SkeletonPills, SkeletonCard } from "../skeleton";
-import { PRELOAD_KEY, UNREAD_ACTIVITY_KEY } from "./keys";
+import { PRELOAD_KEY } from "./keys";
 import { ActivityBadge } from "./activity-badge";
 import { Profile } from "./profile";
 import { PreloadedProfile } from "./preloaded-profile";
@@ -16,8 +17,8 @@ export default function SwrPage() {
         Client-side data fetching with SWR
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Seed <code>useSWR</code> from a Server Component, then coordinate the
-        server and client caches on mutation.
+        Seed <code>useSWR</code> from a Server Component, cache the server read,
+        then coordinate the server and client caches on mutation.
       </p>
 
       <h2 className="mt-12 text-lg font-semibold">Seeding from the server</h2>
@@ -68,7 +69,7 @@ export default function SwrPage() {
         <SWRConfig
           value={{
             fallback: {
-              [UNREAD_ACTIVITY_KEY]: getCachedUnreadActivity(),
+              [activityCache.swrKey]: getCachedUnreadActivity(),
             },
           }}
         >

@@ -1,6 +1,7 @@
 import "server-only";
 
 import { cacheLife, cacheTag } from "next/cache";
+import { activityCache } from "./activity-cache";
 
 // Demo-only in-memory read state shared by the compiled route entries. A real
 // app would read per-user rows from a database instead.
@@ -20,7 +21,7 @@ export async function getUnreadActivity(): Promise<UnreadActivity> {
 
 export async function getCachedUnreadActivity(): Promise<UnreadActivity> {
   "use cache";
-  cacheTag("activity");
+  cacheTag(activityCache.tag);
   cacheLife("max");
   return getUnreadActivity();
 }

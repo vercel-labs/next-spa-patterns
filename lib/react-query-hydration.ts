@@ -26,7 +26,7 @@ async function getHydrationUpdatedAt(tags: string[]) {
 }
 
 // A dehydrate() that caches only the timestamp, not the data. The caller passes
-// fresh data and every write that changes those reads invalidates these tags.
+// seeded data and every write that changes those reads invalidates these tags.
 export async function dehydrate(
   queries: HydratedQuery[],
   options: HydrationOptions,
