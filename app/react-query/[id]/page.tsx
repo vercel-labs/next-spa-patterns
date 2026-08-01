@@ -10,11 +10,27 @@ export default function ProductPage({
   params,
 }: PageProps<"/react-query/[id]">) {
   return (
-    <Suspense fallback={<SkeletonCard rows={1} />}>
-      {params.then(({ id }) => (
-        <ProductData id={Number(id)} />
-      ))}
-    </Suspense>
+    <>
+      <h1 className="text-3xl font-bold tracking-tight">
+        Route-scoped TanStack Query seeding
+      </h1>
+      <p className="mt-4 text-zinc-600 dark:text-zinc-400">
+        Seed the product query for this route segment.
+      </p>
+      <div className="mt-8">
+        <Suspense fallback={<SkeletonCard rows={1} />}>
+          {params.then(({ id }) => (
+            <ProductData id={Number(id)} />
+          ))}
+        </Suspense>
+      </div>
+      <a
+        href="/react-query"
+        className="mt-6 inline-block text-sm text-zinc-500 underline hover:text-foreground dark:text-zinc-400"
+      >
+        ← Back to TanStack Query
+      </a>
+    </>
   );
 }
 

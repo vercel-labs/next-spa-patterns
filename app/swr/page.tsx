@@ -3,10 +3,12 @@ import { SWRConfig } from "swr";
 import { getCachedUnreadActivity } from "@/lib/activity";
 import { activityCache } from "@/lib/activity-cache";
 import { getProducts } from "@/lib/products";
+import { getCurrentUser } from "@/lib/user";
 import { SkeletonPills, SkeletonCard } from "../skeleton";
 import { ActivityBadge } from "./activity-badge";
 import { ClientQueryExamples } from "./client-query-examples";
 import { Profile } from "./profile";
+import { userCache } from "./user-cache";
 
 export default function SwrPage() {
   return (
@@ -31,14 +33,13 @@ export default function SwrPage() {
 
       <h2 className="mt-12 text-lg font-semibold">Seeding from the server</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The layout seeds an <code>SWRConfig</code> fallback keyed{" "}
-        <code>/api/user</code>. Because <code>useSWR</code> reads the same key,
-        the profile can render from the server value before client revalidation
-        runs.
+        The feature boundary seeds an <code>SWRConfig</code> fallback. Because
+        <code>useSWR</code> reads the same key, the profile can render from the
+        server value before client revalidation runs.
       </p>
       <div className="mt-6">
         <Suspense fallback={<SkeletonCard />}>
-          <Profile />
+          <ProfileData />
         </Suspense>
       </div>
 
@@ -71,6 +72,20 @@ export default function SwrPage() {
         </SWRConfig>
       </div>
     </>
+  );
+}
+
+function ProfileData() {
+  return (
+    <SWRConfig
+      value={{
+        fallback: {
+          [userCache.key]: getCurrentUser(),
+        },
+      }}
+    >
+      <Profile />
+    </SWRConfig>
   );
 }
 

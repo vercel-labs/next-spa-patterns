@@ -16,7 +16,7 @@ async function refreshUser() {
   updateTag("current-user");
 }
 
-async function ReactQueryData() {
+async function ProfileData() {
   const user = await getCurrentUser();
   const state = await dehydrate([{ queryKey: ["user"], data: user }], {
     tags: ["current-user"],
@@ -47,7 +47,7 @@ export default function ReactQueryPage() {
   return (
     <>
       <h1 className="text-3xl font-bold tracking-tight">
-        SPAs with React Query
+        Client-side data fetching with TanStack Query
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
         Fetch only on the client, use Suspense for loading states, or seed the
@@ -71,7 +71,7 @@ export default function ReactQueryPage() {
       </p>
       <div className="mt-8">
         <Suspense fallback={<SkeletonCard rows={2} />}>
-          <ReactQueryData />
+          <ProfileData />
         </Suspense>
       </div>
 
