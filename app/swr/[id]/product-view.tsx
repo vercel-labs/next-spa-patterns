@@ -11,7 +11,7 @@ async function fetcher(url: string): Promise<Product> {
 }
 
 export function ProductView({ id }: { id: number }) {
-  const { data } = useSWR<Product>(productCache.key(id), fetcher, {
+  const { data } = useSWR(productCache.key(id), fetcher, {
     suspense: true,
   });
 

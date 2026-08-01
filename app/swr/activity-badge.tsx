@@ -15,7 +15,7 @@ const buttonClass =
 
 // The SWR cache owns this badge read and mutations update it optimistically.
 export function ActivityBadge() {
-  const { data, isValidating, mutate } = useSWR<UnreadActivity>(
+  const { data, isValidating, mutate } = useSWR(
     activityCache.swrKey,
     fetcher,
     { suspense: true },

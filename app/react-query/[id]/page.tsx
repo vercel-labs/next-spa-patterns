@@ -16,7 +16,7 @@ export default function ProductPage({
         Route-scoped TanStack Query data
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Seed the product query for this route segment.
+        Provide initial query data for this route segment.
       </p>
       <div className="mt-8">
         <Suspense fallback={<SkeletonCard rows={1} />}>

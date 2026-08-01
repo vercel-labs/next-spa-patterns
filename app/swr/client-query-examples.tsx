@@ -68,7 +68,7 @@ function SuspenseProductSearch() {
 }
 
 function SuspenseProductResults({ query }: { query: string }) {
-  const { data } = useSWR<Product[]>(
+  const { data } = useSWR(
     `/api/products?query=${encodeURIComponent(query)}`,
     fetcher,
     { suspense: true },

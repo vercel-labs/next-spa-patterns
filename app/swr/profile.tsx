@@ -11,7 +11,7 @@ async function fetcher(url: string): Promise<User> {
 }
 
 export function Profile() {
-  const { data } = useSWR<User>(userCache.key, fetcher, { suspense: true });
+  const { data } = useSWR(userCache.key, fetcher, { suspense: true });
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
