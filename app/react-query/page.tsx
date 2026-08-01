@@ -1,4 +1,5 @@
 import { HydrationBoundary } from "@tanstack/react-query";
+import Link from "next/link";
 import { Suspense } from "react";
 import { updateTag } from "next/cache";
 import { getCachedUnreadActivity } from "@/lib/activity";
@@ -105,13 +106,13 @@ async function ProductLinks() {
   return (
     <div className="flex flex-wrap gap-2">
       {products.map((product) => (
-        <a
+        <Link
           key={product.id}
           href={`/react-query/${product.id}`}
           className="rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900"
         >
           {product.name}
-        </a>
+        </Link>
       ))}
     </div>
   );

@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import Link from "next/link";
 import { SWRConfig } from "swr";
 import { SkeletonCard } from "../../skeleton";
 import { getCachedProduct } from "./data";
@@ -19,12 +20,12 @@ export default function ScopedSwrPage({ params }: PageProps<"/swr/[id]">) {
           ))}
         </Suspense>
       </div>
-      <a
+      <Link
         href="/swr"
         className="mt-6 inline-block text-sm text-zinc-500 underline hover:text-foreground dark:text-zinc-400"
       >
         ← Back to SWR
-      </a>
+      </Link>
     </>
   );
 }

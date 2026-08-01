@@ -1,5 +1,6 @@
 import { Suspense } from "react";
 import { HydrationBoundary } from "@tanstack/react-query";
+import Link from "next/link";
 import { dehydrate } from "@/lib/react-query-hydration";
 import { SkeletonCard } from "../../skeleton";
 import { getCachedProduct } from "./data";
@@ -24,12 +25,12 @@ export default function ProductPage({
           ))}
         </Suspense>
       </div>
-      <a
+      <Link
         href="/react-query"
         className="mt-6 inline-block text-sm text-zinc-500 underline hover:text-foreground dark:text-zinc-400"
       >
         ← Back to TanStack Query
-      </a>
+      </Link>
     </>
   );
 }
