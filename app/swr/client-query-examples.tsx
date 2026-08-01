@@ -29,7 +29,11 @@ export function ClientQueryExamples() {
 
 function InlineProductSearch() {
   const [query, setQuery] = useState("");
-  const { data = [], error, isLoading } = useSWR<Product[]>(
+  const {
+    data = [],
+    error,
+    isLoading,
+  } = useSWR<Product[]>(
     query ? `/api/products?query=${encodeURIComponent(query)}` : null,
     fetcher,
   );
@@ -53,7 +57,9 @@ function SuspenseProductSearch() {
   return (
     <SearchPanel label="useSWR with Suspense" query={query} setQuery={setQuery}>
       {query ? (
-        <Suspense fallback={<p className="mt-3 text-sm text-zinc-500">Loading...</p>}>
+        <Suspense
+          fallback={<p className="mt-3 text-sm text-zinc-500">Loading...</p>}
+        >
           <SuspenseProductResults query={query} />
         </Suspense>
       ) : null}

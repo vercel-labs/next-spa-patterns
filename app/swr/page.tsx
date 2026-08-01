@@ -24,14 +24,16 @@ export default function SwrPage() {
 
       <h2 className="mt-12 text-lg font-semibold">Client-only queries</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        These searches start after interaction without server-provided data.
-        One renders SWR state inline and one uses a local Suspense boundary.
+        These searches start after interaction without server-provided data. One
+        renders SWR state inline and one uses a local Suspense boundary.
       </p>
       <div className="mt-6">
         <ClientQueryExamples />
       </div>
 
-      <h2 className="mt-12 text-lg font-semibold">Initial data from the server</h2>
+      <h2 className="mt-12 text-lg font-semibold">
+        Initial data from the server
+      </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         The feature boundary provides an <code>SWRConfig</code> fallback.
         Because <code>useSWR</code> reads the same key, the profile can render
@@ -55,8 +57,8 @@ export default function SwrPage() {
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         The tagged server read provides the SWR fallback. Marking read updates
-        the browser cache optimistically, then the route handler invalidates
-        the server data for the next visit.
+        the browser cache optimistically, then the route handler invalidates the
+        server data for the next visit.
       </p>
       <div className="mt-6">
         <SWRConfig

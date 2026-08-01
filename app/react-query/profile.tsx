@@ -1,23 +1,19 @@
-'use client'
+"use client";
 
-import { useSuspenseQuery } from '@tanstack/react-query'
-import { useTransition } from 'react'
-import type { User } from '@/lib/user'
+import { useSuspenseQuery } from "@tanstack/react-query";
+import { useTransition } from "react";
+import type { User } from "@/lib/user";
 
-export function Profile({
-  refreshUser,
-}: {
-  refreshUser: () => Promise<void>
-}) {
+export function Profile({ refreshUser }: { refreshUser: () => Promise<void> }) {
   const { data } = useSuspenseQuery<User>({
-    queryKey: ['user'],
+    queryKey: ["user"],
     queryFn: async () => {
-      const response = await fetch('/api/user')
-      if (!response.ok) throw new Error('Failed to fetch user')
-      return response.json()
+      const response = await fetch("/api/user");
+      if (!response.ok) throw new Error("Failed to fetch user");
+      return response.json();
     },
-  })
-  const [isPending, startTransition] = useTransition()
+  });
+  const [isPending, startTransition] = useTransition();
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
@@ -30,8 +26,8 @@ export function Profile({
         disabled={isPending}
         onClick={() => startTransition(() => refreshUser())}
       >
-        {isPending ? 'Updating…' : 'Update cache'}
+        {isPending ? "Updating…" : "Update cache"}
       </button>
     </div>
-  )
+  );
 }

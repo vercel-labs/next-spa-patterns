@@ -1,49 +1,49 @@
 const nativePatterns = [
   {
-    href: '/use-context',
-    title: 'use() within a Context Provider',
+    href: "/use-context",
+    title: "use() within a Context Provider",
     description:
-      'Hoist a fetch to a layout, pass the Promise unawaited through context, and unwrap it in a Client Component with use().',
+      "Hoist a fetch to a layout, pass the Promise unawaited through context, and unwrap it in a Client Component with use().",
   },
   {
-    href: '/browser-only',
-    title: 'Rendering components only in the browser',
+    href: "/browser-only",
+    title: "Rendering components only in the browser",
     description:
-      'Disable prerendering for a Client Component with next/dynamic and ssr: false.',
+      "Disable prerendering for a Client Component with next/dynamic and ssr: false.",
   },
   {
-    href: '/shallow-routing',
-    title: 'Shallow routing on the client',
+    href: "/shallow-routing",
+    title: "Shallow routing on the client",
     description:
-      'Update the URL with pushState and read it back with useSearchParams, without a server round-trip.',
+      "Update the URL with pushState and read it back with useSearchParams, without a server round-trip.",
   },
   {
-    href: '/mutations',
-    title: 'Mutating data with Server Actions',
+    href: "/mutations",
+    title: "Mutating data with Server Actions",
     description:
-      'A to-do list with add, toggle, edit, and delete, using a Server Action as an async reducer with useOptimistic.',
+      "A to-do list with add, toggle, edit, and delete, using a Server Action as an async reducer with useOptimistic.",
   },
-]
+];
 
 const libraryPatterns = [
   {
-    href: '/swr',
-    title: 'Client-side data fetching with SWR',
+    href: "/swr",
+    title: "Client-side data fetching with SWR",
     description:
-      'Compare inline and Suspense client fetching, then provide a scoped SWRConfig fallback from a Server Component.',
+      "Compare inline and Suspense client fetching, then provide a scoped SWRConfig fallback from a Server Component.",
   },
   {
-    href: '/react-query',
-    title: 'Client-side data fetching with TanStack Query',
+    href: "/react-query",
+    title: "Client-side data fetching with TanStack Query",
     description:
-      'Compare useQuery and useSuspenseQuery, then provide initial query data from a Server Component.',
+      "Compare useQuery and useSuspenseQuery, then provide initial query data from a Server Component.",
   },
-]
+];
 
 function PatternGrid({
   patterns,
 }: {
-  patterns: { href: string; title: string; description: string }[]
+  patterns: { href: string; title: string; description: string }[];
 }) {
   return (
     <div className="mt-4 grid gap-4">
@@ -60,15 +60,17 @@ function PatternGrid({
         </a>
       ))}
     </div>
-  )
+  );
 }
 
 export default function Home() {
   return (
     <>
-      <h1 className="text-3xl font-bold tracking-tight">Next.js SPA patterns</h1>
+      <h1 className="text-3xl font-bold tracking-tight">
+        Next.js SPA patterns
+      </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Runnable demos for the{' '}
+        Runnable demos for the{" "}
         <a
           className="underline hover:text-foreground"
           href="https://nextjs.org/docs/app/guides/single-page-applications"
@@ -76,7 +78,7 @@ export default function Home() {
           Single-Page Applications guide
         </a>
         . Each route maps to one section of the guide. Open the network tab to
-        watch initial data stream into the page. The{' '}
+        watch initial data stream into the page. The{" "}
         <a
           className="underline hover:text-foreground"
           href="https://github.com/vercel-labs/next-spa-patterns"
@@ -96,5 +98,5 @@ export default function Home() {
       </h2>
       <PatternGrid patterns={libraryPatterns} />
     </>
-  )
+  );
 }

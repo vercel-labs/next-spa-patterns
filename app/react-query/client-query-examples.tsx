@@ -31,7 +31,11 @@ export function ClientQueryExamples() {
 
 function InlineProductSearch() {
   const [query, setQuery] = useState("");
-  const { data = [], error, isPending } = useQuery({
+  const {
+    data = [],
+    error,
+    isPending,
+  } = useQuery({
     enabled: query.length > 0,
     queryFn: () => searchProducts(query),
     queryKey: ["product-search", query],
@@ -56,7 +60,9 @@ function SuspenseProductSearch() {
   return (
     <SearchPanel label="useSuspenseQuery" query={query} setQuery={setQuery}>
       {query ? (
-        <Suspense fallback={<p className="mt-3 text-sm text-zinc-500">Loading...</p>}>
+        <Suspense
+          fallback={<p className="mt-3 text-sm text-zinc-500">Loading...</p>}
+        >
           <SuspenseProductResults query={query} />
         </Suspense>
       ) : null}
