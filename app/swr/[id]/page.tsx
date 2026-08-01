@@ -9,9 +9,9 @@ import { ProductView } from "./product-view";
 export default function ScopedSwrPage({ params }: PageProps<"/swr/[id]">) {
   return (
     <>
-      <h1 className="text-3xl font-bold tracking-tight">Scoped SWR seeding</h1>
+      <h1 className="text-3xl font-bold tracking-tight">Scoped SWR fallback</h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Seed the product fallback for this route segment.
+        Provide the product fallback for this route segment.
       </p>
       <div className="mt-8">
         <Suspense fallback={<SkeletonCard />}>

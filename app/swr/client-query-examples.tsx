@@ -4,8 +4,11 @@ import { Suspense, useState } from "react";
 import useSWR from "swr";
 import type { Product } from "@/lib/products";
 
-const fetcher = (url: string): Promise<Product[]> =>
-  fetch(url).then((res) => res.json());
+async function fetcher(url: string): Promise<Product[]> {
+  const response = await fetch(url);
+  if (!response.ok) throw new Error("Failed to fetch products");
+  return response.json();
+}
 
 function ProductResults({ products }: { products: Product[] }) {
   return (
@@ -65,7 +68,7 @@ function SuspenseProductResults({ query }: { query: string }) {
     { suspense: true },
   );
 
-  return <ProductResults products={data ?? []} />;
+  return <ProductResults products={data} />;
 }
 
 function SearchPanel({

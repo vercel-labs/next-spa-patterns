@@ -11,7 +11,11 @@ export function Profile({
 }) {
   const { data } = useSuspenseQuery<User>({
     queryKey: ['user'],
-    queryFn: () => fetch('/api/user').then((res) => res.json()),
+    queryFn: async () => {
+      const response = await fetch('/api/user')
+      if (!response.ok) throw new Error('Failed to fetch user')
+      return response.json()
+    },
   })
   const [isPending, startTransition] = useTransition()
 

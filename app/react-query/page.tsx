@@ -51,21 +51,20 @@ export default function ReactQueryPage() {
         Client-side data fetching with TanStack Query
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Fetch only on the client, use Suspense for loading states, or seed the
-        client cache from a Server Component.
+        Fetch only on the client, use Suspense for loading states, or provide
+        initial query data from a Server Component.
       </p>
 
       <h2 className="mt-12 text-lg font-semibold">Client-only queries</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        These searches start after interaction and are not seeded by the
-        server. One renders query state inline and one uses a local Suspense
-        boundary.
+        These searches start after interaction without server-provided data.
+        One renders query state inline and one uses a local Suspense boundary.
       </p>
       <div className="mt-6">
         <ClientQueryExamples />
       </div>
 
-      <h2 className="mt-12 text-lg font-semibold">Seeding from the server</h2>
+      <h2 className="mt-12 text-lg font-semibold">Initial data from the server</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         The server read and its hydration timestamp share a tag, while React
         Query independently owns browser freshness and refetching.
@@ -87,9 +86,10 @@ export default function ReactQueryPage() {
         Coordinating the server and client caches
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The tagged server read seeds the React Query cache. The mutation updates
-        the badge optimistically, then commits the value returned by the write.
-        The route handler also invalidates the server seed for the next visit.
+        The tagged server read provides the initial query data. The mutation
+        updates the badge optimistically, then commits the value returned by
+        the write. The route handler also invalidates the server data for the
+        next visit.
       </p>
       <div className="mt-6">
         <Suspense fallback={<SkeletonCard rows={1} />}>

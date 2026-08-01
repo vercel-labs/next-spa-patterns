@@ -7,8 +7,9 @@ export const productCache = {
   options: (id: number) =>
     queryOptions({
       queryKey: productCache.key(id),
-      queryFn: async (): Promise<Product | undefined> => {
+      queryFn: async (): Promise<Product> => {
         const res = await fetch(`/api/products/${id}`);
+        if (!res.ok) throw new Error("Failed to fetch product");
         return res.json();
       },
     }),

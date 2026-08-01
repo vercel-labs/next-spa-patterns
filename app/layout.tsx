@@ -8,7 +8,7 @@ import { Nav, NavFallback } from "./nav";
 export const metadata: Metadata = {
   title: "Next.js SPA patterns",
   description:
-    "Runnable demos for the Next.js Single-Page Applications guide: seed client data libraries from Server Components, and more.",
+    "Runnable demos for the Next.js Single-Page Applications guide, including client libraries with server-provided initial data.",
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {

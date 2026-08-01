@@ -18,25 +18,24 @@ export default function SwrPage() {
         Client-side data fetching with SWR
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Fetch only on the client, use Suspense for loading states, or seed the
-        SWR cache from a Server Component.
+        Fetch only on the client, use Suspense for loading states, or provide
+        fallback data from a Server Component.
       </p>
 
       <h2 className="mt-12 text-lg font-semibold">Client-only queries</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        These searches start after interaction and are not seeded by the
-        server. One renders SWR state inline and one uses a local Suspense
-        boundary.
+        These searches start after interaction without server-provided data.
+        One renders SWR state inline and one uses a local Suspense boundary.
       </p>
       <div className="mt-6">
         <ClientQueryExamples />
       </div>
 
-      <h2 className="mt-12 text-lg font-semibold">Seeding from the server</h2>
+      <h2 className="mt-12 text-lg font-semibold">Initial data from the server</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The feature boundary seeds an <code>SWRConfig</code> fallback. Because
-        <code>useSWR</code> reads the same key, the profile can render from the
-        server value before client revalidation runs.
+        The feature boundary provides an <code>SWRConfig</code> fallback.
+        Because <code>useSWR</code> reads the same key, the profile can render
+        with that value before client revalidation runs.
       </p>
       <div className="mt-6">
         <Suspense fallback={<SkeletonCard />}>
@@ -55,9 +54,9 @@ export default function SwrPage() {
         Coordinating the server and client caches
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
-        The tagged server read seeds the SWR cache. Marking read clears the
-        badge optimistically, then the route handler invalidates that server
-        seed for the next visit.
+        The tagged server read provides the SWR fallback. Marking read updates
+        the browser cache optimistically, then the route handler invalidates
+        the server data for the next visit.
       </p>
       <div className="mt-6">
         <SWRConfig

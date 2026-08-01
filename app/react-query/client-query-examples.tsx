@@ -4,10 +4,12 @@ import { useQuery, useSuspenseQuery } from "@tanstack/react-query";
 import { Suspense, useState } from "react";
 import type { Product } from "@/lib/products";
 
-function searchProducts(query: string): Promise<Product[]> {
-  return fetch(`/api/products?query=${encodeURIComponent(query)}`).then((res) =>
-    res.json(),
+async function searchProducts(query: string): Promise<Product[]> {
+  const response = await fetch(
+    `/api/products?query=${encodeURIComponent(query)}`,
   );
+  if (!response.ok) throw new Error("Failed to fetch products");
+  return response.json();
 }
 
 function ProductResults({ products }: { products: Product[] }) {

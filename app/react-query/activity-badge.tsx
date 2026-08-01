@@ -15,6 +15,12 @@ async function updateActivity(url: string): Promise<UnreadActivity> {
   return response.json();
 }
 
+async function getActivity(): Promise<UnreadActivity> {
+  const response = await fetch("/api/activity/unread");
+  if (!response.ok) throw new Error("Failed to fetch activity");
+  return response.json();
+}
+
 function useUpdateActivity(url: string, optimisticData: UnreadActivity) {
   const queryClient = useQueryClient();
 
@@ -44,8 +50,7 @@ function useUpdateActivity(url: string, optimisticData: UnreadActivity) {
 export function ActivityBadge() {
   const { data, isFetching } = useQuery({
     queryKey: activityCache.queryKey,
-    queryFn: (): Promise<UnreadActivity> =>
-      fetch("/api/activity/unread").then((res) => res.json()),
+    queryFn: getActivity,
   });
 
   const markRead = useUpdateActivity("/api/activity/read", { count: 0 });

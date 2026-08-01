@@ -13,7 +13,7 @@ export default function ProductPage({
   return (
     <>
       <h1 className="text-3xl font-bold tracking-tight">
-        Route-scoped TanStack Query seeding
+        Route-scoped TanStack Query data
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
         Seed the product query for this route segment.

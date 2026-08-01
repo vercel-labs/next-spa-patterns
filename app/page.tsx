@@ -30,13 +30,13 @@ const libraryPatterns = [
     href: '/swr',
     title: 'Client-side data fetching with SWR',
     description:
-      'Compare inline and Suspense client fetching, then seed a scoped SWRConfig fallback from a Server Component.',
+      'Compare inline and Suspense client fetching, then provide a scoped SWRConfig fallback from a Server Component.',
   },
   {
     href: '/react-query',
     title: 'Client-side data fetching with TanStack Query',
     description:
-      'Compare useQuery and useSuspenseQuery, then seed a HydrationBoundary from a Server Component.',
+      'Compare useQuery and useSuspenseQuery, then provide initial query data from a Server Component.',
   },
 ]
 
@@ -76,7 +76,7 @@ export default function Home() {
           Single-Page Applications guide
         </a>
         . Each route maps to one section of the guide. Open the network tab to
-        watch the seeding and streaming behavior. The{' '}
+        watch initial data stream into the page. The{' '}
         <a
           className="underline hover:text-foreground"
           href="https://github.com/vercel-labs/next-spa-patterns"
