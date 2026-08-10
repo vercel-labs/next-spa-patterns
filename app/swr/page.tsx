@@ -18,14 +18,15 @@ export default function SwrPage() {
         Client-side data fetching with SWR
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Fetch only on the client, use Suspense for loading states, or provide
-        fallback data from a Server Component.
+        Render loading UI in the query component, reveal results with Suspense,
+        or provide fallback data from a Server Component.
       </p>
 
       <h2 className="mt-12 text-lg font-semibold">Client-only queries</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         These searches start after interaction without server-provided data. One
-        renders SWR state inline and one uses a local Suspense boundary.
+        renders its loading state inline. The other uses a local Suspense
+        boundary to coordinate when results are revealed.
       </p>
       <div className="mt-6">
         <ClientQueryExamples />
@@ -57,8 +58,8 @@ export default function SwrPage() {
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         The tagged server read provides the SWR fallback. Marking read updates
-        the browser cache optimistically, then the route handler invalidates the
-        server data for the next visit.
+        the browser cache optimistically, then the Server Action updates the tag
+        so the next server read sees the change.
       </p>
       <div className="mt-6">
         <SWRConfig

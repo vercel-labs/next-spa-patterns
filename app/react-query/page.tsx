@@ -51,14 +51,15 @@ export default function ReactQueryPage() {
         Client-side data fetching with TanStack Query
       </h1>
       <p className="mt-4 text-zinc-600 dark:text-zinc-400">
-        Fetch only on the client, use Suspense for loading states, or provide
-        initial query data from a Server Component.
+        Render loading UI in the query component, reveal results with Suspense,
+        or provide initial query data from a Server Component.
       </p>
 
       <h2 className="mt-12 text-lg font-semibold">Client-only queries</h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         These searches start after interaction without server-provided data. One
-        renders query state inline and one uses a local Suspense boundary.
+        renders its loading state inline. The other uses a local Suspense
+        boundary to coordinate when results are revealed.
       </p>
       <div className="mt-6">
         <ClientQueryExamples />
@@ -89,9 +90,8 @@ export default function ReactQueryPage() {
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         The tagged server read provides the initial query data. The mutation
-        updates the badge optimistically, then commits the value returned by the
-        write. The route handler also invalidates the server data for the next
-        visit.
+        updates the badge optimistically, while the Server Action updates the
+        tag so the next server read sees the change.
       </p>
       <div className="mt-6">
         <Suspense fallback={<SkeletonCard rows={1} />}>

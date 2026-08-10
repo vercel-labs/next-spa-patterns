@@ -3,6 +3,7 @@
 import useSWR from "swr";
 import type { UnreadActivity } from "@/lib/activity";
 import { activityCache } from "@/lib/activity-cache";
+import { useActivityMutations } from "./hooks/use-activity-mutations";
 
 async function fetcher(url: string): Promise<UnreadActivity> {
   const response = await fetch(url);
@@ -15,29 +16,12 @@ const buttonClass =
 
 // The SWR cache owns this badge read and mutations update it optimistically.
 export function ActivityBadge() {
-  const { data, isValidating, mutate } = useSWR(
+  const { data, isValidating } = useSWR(
     activityCache.swrKey,
     fetcher,
     { suspense: true },
   );
-
-  function updateActivity(url: string, optimisticData: UnreadActivity) {
-    return mutate(
-      async () => {
-        const response = await fetch(url, { method: "POST" });
-        if (!response.ok) {
-          throw new Error("Failed to update activity");
-        }
-        return response.json();
-      },
-      {
-        optimisticData,
-        revalidate: false,
-        rollbackOnError: true,
-        throwOnError: false,
-      },
-    );
-  }
+  const { markRead, reset } = useActivityMutations();
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
@@ -58,16 +42,10 @@ export function ActivityBadge() {
       </div>
 
       <div className="mt-4 flex flex-wrap gap-2">
-        <button
-          className={buttonClass}
-          onClick={() => updateActivity("/api/activity/read", { count: 0 })}
-        >
+        <button className={buttonClass} onClick={markRead}>
           Mark read
         </button>
-        <button
-          className={buttonClass}
-          onClick={() => updateActivity("/api/activity/reset", { count: 3 })}
-        >
+        <button className={buttonClass} onClick={reset}>
           Reset
         </button>
       </div>
