@@ -20,6 +20,7 @@ export function ActivityBadge() {
   const { data, isFetching } = useQuery({
     queryKey: activityCache.queryKey,
     queryFn: getActivity,
+    staleTime: 30_000,
   });
 
   const { markRead, reset } = useActivityMutations();

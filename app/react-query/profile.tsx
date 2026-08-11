@@ -12,6 +12,7 @@ export function Profile({ refreshUser }: { refreshUser: () => Promise<void> }) {
       if (!response.ok) throw new Error("Failed to fetch user");
       return response.json();
     },
+    staleTime: 30_000,
   });
   const [isPending, startTransition] = useTransition();
 

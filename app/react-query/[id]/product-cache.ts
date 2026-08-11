@@ -12,5 +12,6 @@ export const productCache = {
         if (!res.ok) throw new Error("Failed to fetch product");
         return res.json();
       },
+      staleTime: 30_000,
     }),
 };
