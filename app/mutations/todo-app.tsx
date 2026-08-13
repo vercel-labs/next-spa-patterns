@@ -7,11 +7,7 @@ import {
   useState,
 } from "react";
 import { saveTodos } from "./actions";
-import {
-  todosReducer,
-  type Todo,
-  type TodoAction,
-} from "./todos-reducer";
+import { todosReducer, type Todo, type TodoAction } from "./todos-reducer";
 
 const initialTodos: Todo[] = [];
 
@@ -23,14 +19,8 @@ const smallButtonClass =
   "rounded border border-zinc-300 px-2 py-1 text-xs hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900";
 
 export function TodoApp() {
-  const [todos, dispatch, isPending] = useActionState(
-    saveTodos,
-    initialTodos,
-  );
-  const [optimisticTodos, addOptimistic] = useOptimistic(
-    todos,
-    todosReducer,
-  );
+  const [todos, dispatch, isPending] = useActionState(saveTodos, initialTodos);
+  const [optimisticTodos, addOptimistic] = useOptimistic(todos, todosReducer);
 
   function runAction(action: TodoAction) {
     startTransition(() => {

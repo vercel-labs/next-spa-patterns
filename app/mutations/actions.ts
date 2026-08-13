@@ -1,10 +1,6 @@
 "use server";
 
-import {
-  todosReducer,
-  type Todo,
-  type TodoAction,
-} from "./todos-reducer";
+import { todosReducer, type Todo, type TodoAction } from "./todos-reducer";
 
 export async function saveTodos(
   todos: Todo[],
