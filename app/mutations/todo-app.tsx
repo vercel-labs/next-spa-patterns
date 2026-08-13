@@ -6,8 +6,12 @@ import {
   useOptimistic,
   useState,
 } from "react";
-import { todosReducer } from "./actions";
-import { applyAction, type Todo, type TodoAction } from "./reducer";
+import { saveTodos } from "./actions";
+import {
+  todosReducer,
+  type Todo,
+  type TodoAction,
+} from "./todos-reducer";
 
 const initialTodos: Todo[] = [];
 
@@ -20,10 +24,13 @@ const smallButtonClass =
 
 export function TodoApp() {
   const [todos, dispatch, isPending] = useActionState(
-    todosReducer,
+    saveTodos,
     initialTodos,
   );
-  const [optimisticTodos, addOptimistic] = useOptimistic(todos, applyAction);
+  const [optimisticTodos, addOptimistic] = useOptimistic(
+    todos,
+    todosReducer,
+  );
 
   function runAction(action: TodoAction) {
     startTransition(() => {

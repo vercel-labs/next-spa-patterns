@@ -6,7 +6,7 @@ export type TodoAction =
   | { type: "edit"; id: string; text: string }
   | { type: "delete"; id: string };
 
-export function applyAction(todos: Todo[], action: TodoAction): Todo[] {
+export function todosReducer(todos: Todo[], action: TodoAction): Todo[] {
   switch (action.type) {
     case "add":
       return [...todos, { id: action.id, text: action.text, done: false }];
