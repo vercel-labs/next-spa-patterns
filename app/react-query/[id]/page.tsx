@@ -1,15 +1,15 @@
-import { Suspense } from "react";
-import { HydrationBoundary } from "@tanstack/react-query";
-import Link from "next/link";
-import { dehydrate } from "@/lib/react-query-hydration";
-import { SkeletonCard } from "../../skeleton";
-import { getCachedProduct } from "./data";
-import { productCache } from "./product-cache";
-import { ProductView } from "./product-view";
+import { Suspense } from 'react'
+import { HydrationBoundary } from '@tanstack/react-query'
+import Link from 'next/link'
+import { dehydrate } from '@/lib/react-query-hydration'
+import { SkeletonCard } from '../../skeleton'
+import { getCachedProduct } from './data'
+import { productCache } from './product-cache'
+import { ProductView } from './product-view'
 
 export default function ProductPage({
   params,
-}: PageProps<"/react-query/[id]">) {
+}: PageProps<'/react-query/[id]'>) {
   return (
     <>
       <h1 className="text-3xl font-bold tracking-tight">
@@ -32,19 +32,19 @@ export default function ProductPage({
         ← Back to TanStack Query
       </Link>
     </>
-  );
+  )
 }
 
 async function ProductData({ id }: { id: number }) {
-  const product = await getCachedProduct(id);
+  const product = await getCachedProduct(id)
   const state = await dehydrate(
     [{ queryKey: productCache.key(id), data: product }],
     { tags: [productCache.tag(id)] },
-  );
+  )
 
   return (
     <HydrationBoundary state={state}>
       <ProductView id={id} />
     </HydrationBoundary>
-  );
+  )
 }

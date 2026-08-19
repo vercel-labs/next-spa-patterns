@@ -1,47 +1,47 @@
-import { HydrationBoundary } from "@tanstack/react-query";
-import Link from "next/link";
-import { Suspense } from "react";
-import { updateTag } from "next/cache";
-import { getCachedUnreadActivity } from "@/lib/activity";
-import { activityCache } from "@/lib/activity-cache";
-import { getProducts } from "@/lib/products";
-import { getCurrentUser } from "@/lib/user";
-import { dehydrate } from "@/lib/react-query-hydration";
-import { SkeletonCard, SkeletonPills } from "../skeleton";
-import { ActivityBadge } from "./activity-badge";
-import { ClientQueryExamples } from "./client-query-examples";
-import { Profile } from "./profile";
+import { HydrationBoundary } from '@tanstack/react-query'
+import Link from 'next/link'
+import { Suspense } from 'react'
+import { updateTag } from 'next/cache'
+import { getCachedUnreadActivity } from '@/lib/activity'
+import { activityCache } from '@/lib/activity-cache'
+import { getProducts } from '@/lib/products'
+import { getCurrentUser } from '@/lib/user'
+import { dehydrate } from '@/lib/react-query-hydration'
+import { SkeletonCard, SkeletonPills } from '../skeleton'
+import { ActivityBadge } from './activity-badge'
+import { ClientQueryExamples } from './client-query-examples'
+import { Profile } from './profile'
 
 async function refreshUser() {
-  "use server";
-  updateTag("current-user");
+  'use server'
+  updateTag('current-user')
 }
 
 async function ProfileData() {
-  const user = await getCurrentUser();
-  const state = await dehydrate([{ queryKey: ["user"], data: user }], {
-    tags: ["current-user"],
-  });
+  const user = await getCurrentUser()
+  const state = await dehydrate([{ queryKey: ['user'], data: user }], {
+    tags: ['current-user'],
+  })
 
   return (
     <HydrationBoundary state={state}>
       <Profile refreshUser={refreshUser} />
     </HydrationBoundary>
-  );
+  )
 }
 
 async function ActivityData() {
-  const activity = await getCachedUnreadActivity();
+  const activity = await getCachedUnreadActivity()
   const state = await dehydrate(
     [{ queryKey: activityCache.queryKey, data: activity }],
     { tags: [activityCache.tag] },
-  );
+  )
 
   return (
     <HydrationBoundary state={state}>
       <ActivityBadge />
     </HydrationBoundary>
-  );
+  )
 }
 
 export default function ReactQueryPage() {
@@ -99,11 +99,11 @@ export default function ReactQueryPage() {
         </Suspense>
       </div>
     </>
-  );
+  )
 }
 
 async function ProductLinks() {
-  const products = await getProducts();
+  const products = await getProducts()
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -117,5 +117,5 @@ async function ProductLinks() {
         </Link>
       ))}
     </div>
-  );
+  )
 }

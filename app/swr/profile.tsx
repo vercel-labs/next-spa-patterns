@@ -1,17 +1,17 @@
-"use client";
+'use client'
 
-import useSWR from "swr";
-import type { User } from "@/lib/user";
-import { userCache } from "./user-cache";
+import useSWR from 'swr'
+import type { User } from '@/lib/user'
+import { userCache } from './user-cache'
 
 async function fetcher(url: string): Promise<User> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error("Failed to fetch user");
-  return response.json();
+  const response = await fetch(url)
+  if (!response.ok) throw new Error('Failed to fetch user')
+  return response.json()
 }
 
 export function Profile() {
-  const { data } = useSWR(userCache.key, fetcher, { suspense: true });
+  const { data } = useSWR(userCache.key, fetcher, { suspense: true })
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
@@ -20,5 +20,5 @@ export function Profile() {
         {data.email}
       </div>
     </div>
-  );
+  )
 }

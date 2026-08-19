@@ -1,17 +1,17 @@
-import type { Metadata } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
-import { Suspense } from "react";
-import "./globals.css";
-import { Nav, NavFallback } from "./nav";
+import type { Metadata } from 'next'
+import { GeistSans } from 'geist/font/sans'
+import { GeistMono } from 'geist/font/mono'
+import { Suspense } from 'react'
+import './globals.css'
+import { Nav, NavFallback } from './nav'
 
 export const metadata: Metadata = {
-  title: "Next.js SPA patterns",
+  title: 'Next.js SPA patterns',
   description:
-    "Runnable demos for the Next.js Single-Page Applications guide, including client libraries with server-provided initial data.",
-};
+    'Runnable demos for the Next.js Single-Page Applications guide, including client libraries with server-provided initial data.',
+}
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html
       lang="en"
@@ -26,5 +26,5 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
       </body>
     </html>
-  );
+  )
 }

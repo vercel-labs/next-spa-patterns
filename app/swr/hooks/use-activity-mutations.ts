@@ -1,21 +1,21 @@
-"use client";
+'use client'
 
-import { useSWRConfig } from "swr";
+import { useSWRConfig } from 'swr'
 import {
   markActivityReadAction,
   resetActivityAction,
-} from "@/lib/activity-actions";
-import { activityCache } from "@/lib/activity-cache";
+} from '@/lib/activity-actions'
+import { activityCache } from '@/lib/activity-cache'
 
 export function useActivityMutations() {
-  const { mutate } = useSWRConfig();
+  const { mutate } = useSWRConfig()
 
   function markRead() {
     return mutate(
       activityCache.swrKey,
       async () => {
-        await markActivityReadAction();
-        return { count: 0 };
+        await markActivityReadAction()
+        return { count: 0 }
       },
       {
         optimisticData: { count: 0 },
@@ -23,15 +23,15 @@ export function useActivityMutations() {
         rollbackOnError: true,
         throwOnError: false,
       },
-    );
+    )
   }
 
   function reset() {
     return mutate(
       activityCache.swrKey,
       async () => {
-        await resetActivityAction();
-        return { count: 3 };
+        await resetActivityAction()
+        return { count: 3 }
       },
       {
         optimisticData: { count: 3 },
@@ -39,8 +39,8 @@ export function useActivityMutations() {
         rollbackOnError: true,
         throwOnError: false,
       },
-    );
+    )
   }
 
-  return { markRead, reset };
+  return { markRead, reset }
 }

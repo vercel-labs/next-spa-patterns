@@ -1,4 +1,4 @@
 export const userCache = {
-  key: "/api/user",
-  tag: "current-user",
-};
+  key: '/api/user',
+  tag: 'current-user',
+}

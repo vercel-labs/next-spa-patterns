@@ -32,7 +32,7 @@ The app enables [Cache Components](https://nextjs.org/docs/app/api-reference/con
 
 ## A note on static export
 
-The guide lists [static export](https://nextjs.org/docs/app/guides/static-exports) (`output: 'export'`) as an option. This demo does **not** enable it because `/use-context`, `/swr`, and `/react-query` rely on server rendering. The Server Action in `/mutations` also requires a server. The `/browser-only` and `/shallow-routing` patterns are export-compatible on their own.
+[Static export](https://nextjs.org/docs/app/guides/static-exports) (`output: 'export'`) is not currently compatible with Cache Components. Because this demo enables Cache Components, it must run with a server. The Server Action in `/mutations` also requires a server.
 
 ## Stack
 

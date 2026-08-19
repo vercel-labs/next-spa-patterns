@@ -12,25 +12,25 @@ export function SkeletonCard({ rows = 3 }: { rows?: number }) {
         <div
           key={i}
           className={`mt-2 h-4 ${
-            i === 0 ? "w-48" : "w-24"
+            i === 0 ? 'w-48' : 'w-24'
           } animate-pulse rounded bg-zinc-100 dark:bg-zinc-900`}
         />
       ))}
     </div>
-  );
+  )
 }
 
 export function SkeletonPills() {
   return (
     <div aria-hidden className="flex flex-wrap gap-2">
-      {["w-16", "w-24", "w-20", "w-20"].map((w, i) => (
+      {['w-16', 'w-24', 'w-20', 'w-20'].map((w, i) => (
         <div
           key={i}
           className={`h-8 ${w} animate-pulse rounded bg-zinc-100 dark:bg-zinc-900`}
         />
       ))}
     </div>
-  );
+  )
 }
 
 export function SkeletonList({ rows = 4 }: { rows?: number }) {
@@ -46,5 +46,5 @@ export function SkeletonList({ rows = 4 }: { rows?: number }) {
         ))}
       </div>
     </div>
-  );
+  )
 }

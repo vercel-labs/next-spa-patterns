@@ -1,10 +1,10 @@
-"use client";
+'use client'
 
-import { useSuspenseQuery } from "@tanstack/react-query";
-import { productCache } from "./product-cache";
+import { useSuspenseQuery } from '@tanstack/react-query'
+import { productCache } from './product-cache'
 
 export function ProductView({ id }: { id: number }) {
-  const { data } = useSuspenseQuery(productCache.options(id));
+  const { data } = useSuspenseQuery(productCache.options(id))
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
@@ -13,5 +13,5 @@ export function ProductView({ id }: { id: number }) {
         ${data.price}
       </div>
     </div>
-  );
+  )
 }

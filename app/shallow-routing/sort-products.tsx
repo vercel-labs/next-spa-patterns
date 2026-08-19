@@ -17,7 +17,11 @@ export function SortProducts() {
   }
 
   return (
-    <div className="flex flex-wrap gap-2" role="group" aria-label="Sort products">
+    <div
+      className="flex flex-wrap gap-2"
+      role="group"
+      aria-label="Sort products"
+    >
       <button
         className={buttonClass}
         onClick={() => updateSorting('asc')}

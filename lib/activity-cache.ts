@@ -1,5 +1,5 @@
 export const activityCache = {
-  queryKey: ["activity", "unread"] as const,
-  swrKey: "/api/activity/unread",
-  tag: "activity",
-};
+  queryKey: ['activity', 'unread'] as const,
+  swrKey: '/api/activity/unread',
+  tag: 'activity',
+}

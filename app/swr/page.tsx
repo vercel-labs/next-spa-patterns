@@ -1,15 +1,15 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import { SWRConfig } from "swr";
-import { getCachedUnreadActivity } from "@/lib/activity";
-import { activityCache } from "@/lib/activity-cache";
-import { getProducts } from "@/lib/products";
-import { getCurrentUser } from "@/lib/user";
-import { SkeletonPills, SkeletonCard } from "../skeleton";
-import { ActivityBadge } from "./activity-badge";
-import { ClientQueryExamples } from "./client-query-examples";
-import { Profile } from "./profile";
-import { userCache } from "./user-cache";
+import { Suspense } from 'react'
+import Link from 'next/link'
+import { SWRConfig } from 'swr'
+import { getCachedUnreadActivity } from '@/lib/activity'
+import { activityCache } from '@/lib/activity-cache'
+import { getProducts } from '@/lib/products'
+import { getCurrentUser } from '@/lib/user'
+import { SkeletonPills, SkeletonCard } from '../skeleton'
+import { ActivityBadge } from './activity-badge'
+import { ClientQueryExamples } from './client-query-examples'
+import { Profile } from './profile'
+import { userCache } from './user-cache'
 
 export default function SwrPage() {
   return (
@@ -75,7 +75,7 @@ export default function SwrPage() {
         </SWRConfig>
       </div>
     </>
-  );
+  )
 }
 
 function ProfileData() {
@@ -89,11 +89,11 @@ function ProfileData() {
     >
       <Profile />
     </SWRConfig>
-  );
+  )
 }
 
 async function ProductLinks() {
-  const products = await getProducts();
+  const products = await getProducts()
 
   return (
     <div className="flex flex-wrap gap-2">
@@ -107,5 +107,5 @@ async function ProductLinks() {
         </Link>
       ))}
     </div>
-  );
+  )
 }

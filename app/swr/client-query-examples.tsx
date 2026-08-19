@@ -1,21 +1,21 @@
-"use client";
+'use client'
 
-import { Suspense, useState } from "react";
-import useSWR from "swr";
-import type { Product } from "@/lib/products";
+import { Suspense, useState } from 'react'
+import useSWR from 'swr'
+import type { Product } from '@/lib/products'
 
 async function fetcher(url: string): Promise<Product[]> {
-  const response = await fetch(url);
-  if (!response.ok) throw new Error("Failed to fetch products");
-  return response.json();
+  const response = await fetch(url)
+  if (!response.ok) throw new Error('Failed to fetch products')
+  return response.json()
 }
 
 function ProductResults({ products }: { products: Product[] }) {
   return (
     <p className="mt-3 text-sm text-zinc-600 dark:text-zinc-400">
-      {products.map((product) => product.name).join(", ") || "No products"}
+      {products.map((product) => product.name).join(', ') || 'No products'}
     </p>
-  );
+  )
 }
 
 export function ClientQueryExamples() {
@@ -24,11 +24,11 @@ export function ClientQueryExamples() {
       <InlineProductSearch />
       <SuspenseProductSearch />
     </div>
-  );
+  )
 }
 
 function InlineProductSearch() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('')
   const {
     data = [],
     error,
@@ -36,7 +36,7 @@ function InlineProductSearch() {
   } = useSWR<Product[]>(
     query ? `/api/products?query=${encodeURIComponent(query)}` : null,
     fetcher,
-  );
+  )
 
   return (
     <SearchPanel label="useSWR" query={query} setQuery={setQuery}>
@@ -48,11 +48,11 @@ function InlineProductSearch() {
         <ProductResults products={data} />
       ) : null}
     </SearchPanel>
-  );
+  )
 }
 
 function SuspenseProductSearch() {
-  const [query, setQuery] = useState("");
+  const [query, setQuery] = useState('')
 
   return (
     <SearchPanel label="useSWR with Suspense" query={query} setQuery={setQuery}>
@@ -64,7 +64,7 @@ function SuspenseProductSearch() {
         </Suspense>
       ) : null}
     </SearchPanel>
-  );
+  )
 }
 
 function SuspenseProductResults({ query }: { query: string }) {
@@ -72,9 +72,9 @@ function SuspenseProductResults({ query }: { query: string }) {
     `/api/products?query=${encodeURIComponent(query)}`,
     fetcher,
     { suspense: true },
-  );
+  )
 
-  return <ProductResults products={data} />;
+  return <ProductResults products={data} />
 }
 
 function SearchPanel({
@@ -83,10 +83,10 @@ function SearchPanel({
   query,
   setQuery,
 }: {
-  children: React.ReactNode;
-  label: string;
-  query: string;
-  setQuery: (query: string) => void;
+  children: React.ReactNode
+  label: string
+  query: string
+  setQuery: (query: string) => void
 }) {
   return (
     <div className="rounded-lg border border-zinc-200 p-4 dark:border-zinc-800">
@@ -101,5 +101,5 @@ function SearchPanel({
       </label>
       {children}
     </div>
-  );
+  )
 }

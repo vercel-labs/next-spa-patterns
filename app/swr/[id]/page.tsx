@@ -1,12 +1,12 @@
-import { Suspense } from "react";
-import Link from "next/link";
-import { SWRConfig } from "swr";
-import { SkeletonCard } from "../../skeleton";
-import { getCachedProduct } from "./data";
-import { productCache } from "./product-cache";
-import { ProductView } from "./product-view";
+import { Suspense } from 'react'
+import Link from 'next/link'
+import { SWRConfig } from 'swr'
+import { SkeletonCard } from '../../skeleton'
+import { getCachedProduct } from './data'
+import { productCache } from './product-cache'
+import { ProductView } from './product-view'
 
-export default function ScopedSwrPage({ params }: PageProps<"/swr/[id]">) {
+export default function ScopedSwrPage({ params }: PageProps<'/swr/[id]'>) {
   return (
     <>
       <h1 className="text-3xl font-bold tracking-tight">Scoped SWR fallback</h1>
@@ -27,7 +27,7 @@ export default function ScopedSwrPage({ params }: PageProps<"/swr/[id]">) {
         ← Back to SWR
       </Link>
     </>
-  );
+  )
 }
 
 function ProductData({ id }: { id: number }) {
@@ -41,5 +41,5 @@ function ProductData({ id }: { id: number }) {
     >
       <ProductView id={id} />
     </SWRConfig>
-  );
+  )
 }

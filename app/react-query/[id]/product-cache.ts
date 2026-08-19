@@ -1,17 +1,17 @@
-import { queryOptions } from "@tanstack/react-query";
-import type { Product } from "@/lib/products";
+import { queryOptions } from '@tanstack/react-query'
+import type { Product } from '@/lib/products'
 
 export const productCache = {
-  key: (id: number) => ["product", id] as const,
+  key: (id: number) => ['product', id] as const,
   tag: (id: number) => `product:${id}`,
   options: (id: number) =>
     queryOptions({
       queryKey: productCache.key(id),
       queryFn: async (): Promise<Product> => {
-        const res = await fetch(`/api/products/${id}`);
-        if (!res.ok) throw new Error("Failed to fetch product");
-        return res.json();
+        const res = await fetch(`/api/products/${id}`)
+        if (!res.ok) throw new Error('Failed to fetch product')
+        return res.json()
       },
       staleTime: 30_000,
     }),
-};
+}

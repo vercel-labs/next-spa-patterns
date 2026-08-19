@@ -1,17 +1,17 @@
-"use client";
+'use client'
 
-import { useQuery } from "@tanstack/react-query";
-import type { UnreadActivity } from "@/lib/activity";
-import { activityCache } from "@/lib/activity-cache";
-import { useActivityMutations } from "./hooks/use-activity-mutations";
+import { useQuery } from '@tanstack/react-query'
+import type { UnreadActivity } from '@/lib/activity'
+import { activityCache } from '@/lib/activity-cache'
+import { useActivityMutations } from './hooks/use-activity-mutations'
 
 const buttonClass =
-  "rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900";
+  'rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 disabled:opacity-50 dark:border-zinc-700 dark:hover:bg-zinc-900'
 
 async function getActivity(): Promise<UnreadActivity> {
-  const response = await fetch("/api/activity/unread");
-  if (!response.ok) throw new Error("Failed to fetch activity");
-  return response.json();
+  const response = await fetch('/api/activity/unread')
+  if (!response.ok) throw new Error('Failed to fetch activity')
+  return response.json()
 }
 
 // The React Query cache owns this badge read and mutations update it
@@ -21,9 +21,9 @@ export function ActivityBadge() {
     queryKey: activityCache.queryKey,
     queryFn: getActivity,
     staleTime: 30_000,
-  });
+  })
 
-  const { markRead, reset } = useActivityMutations();
+  const { markRead, reset } = useActivityMutations()
 
   return (
     <div className="rounded-lg border border-zinc-200 p-6 dark:border-zinc-800">
@@ -52,5 +52,5 @@ export function ActivityBadge() {
         </button>
       </div>
     </div>
-  );
+  )
 }
