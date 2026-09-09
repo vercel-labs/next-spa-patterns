@@ -1,5 +1,5 @@
 import { Suspense } from 'react'
-import BrowserOnlyEditorDemo from './browser-only-editor-demo'
+import BrowserOnlyEditor from './browser-only-editor'
 import { BrowserOnly } from './loader'
 
 export default function BrowserOnlyPage() {
@@ -29,8 +29,8 @@ export default function BrowserOnlyPage() {
       </h2>
       <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
         Calling <code>use(browser())</code> leaves this fallback in the
-        prerendered HTML. The demo keeps it visible briefly on every reload,
-        then shows an editor backed by <code>localStorage</code>.
+        prerendered HTML, then shows an editor backed by{' '}
+        <code>localStorage</code> in the browser.
       </p>
       <div className="mt-6">
         <Suspense
@@ -40,7 +40,7 @@ export default function BrowserOnlyPage() {
             </div>
           }
         >
-          <BrowserOnlyEditorDemo />
+          <BrowserOnlyEditor />
         </Suspense>
       </div>
     </>
