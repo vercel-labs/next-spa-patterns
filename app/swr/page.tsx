@@ -53,6 +53,17 @@ export default function SwrPage() {
         </Suspense>
       </div>
 
+      <h2 className="mt-12 text-lg font-semibold">Browser-only RSC cache</h2>
+      <p className="mt-2 text-sm text-zinc-600 dark:text-zinc-400">
+        Cache the RSC payload for client navigations without reusing it across
+        requests.
+      </p>
+      <div className="mt-6">
+        <Suspense fallback={<SkeletonPills />}>
+          <BrowserCacheProductLinks />
+        </Suspense>
+      </div>
+
       <h2 className="mt-12 text-lg font-semibold">
         Coordinating the server and client caches
       </h2>
@@ -101,6 +112,24 @@ async function ProductLinks() {
         <Link
           key={product.id}
           href={`/swr/${product.id}`}
+          className="rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900"
+        >
+          {product.name}
+        </Link>
+      ))}
+    </div>
+  )
+}
+
+async function BrowserCacheProductLinks() {
+  const products = await getProducts()
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {products.map((product) => (
+        <Link
+          key={product.id}
+          href={`/swr/browser-cache/${product.id}`}
           className="rounded border border-zinc-300 px-3 py-1.5 text-sm hover:bg-zinc-100 dark:border-zinc-700 dark:hover:bg-zinc-900"
         >
           {product.name}

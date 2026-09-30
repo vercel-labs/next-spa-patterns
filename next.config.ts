@@ -4,6 +4,9 @@ const nextConfig: NextConfig = {
   cacheComponents: true,
   partialPrefetching: true,
   typedRoutes: true,
+  experimental: {
+    agentFeedback: true,
+  },
 }
 
 export default nextConfig
